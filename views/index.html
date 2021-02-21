@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div style="margin:3rem auto; display: grid; place-items: center;">
+        <h1>Yoda quotes</h1>
+
+        <img style="width:25rem;" id="yodaImage" src=""/>
+        <p id="yodaQuote"></p>
+        <p style="display:none;" id="kanyeQuote"></p>
+
+        <button onclick="fetchData()" style="padding:1.5rem;">Click here to generate quote!</button>
+    </div>
+</body>
+
+<script>
+  function fetchData() {
+    fetch('/api/yodaQuote',
+      {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+      })
+      .then((response) => response.json())
+      .then((data) => { 
+          document.getElementById('yodaImage').src = `${data.sentiment}_yoda.jpg`
+          document.getElementById('yodaQuote').innerText = data.yodaQuote
+          document.getElementById('kanyeQuote').innerText = data.kanyeQuote
+      })
+      .catch((err) => {
+      document.getElementById('yodaImage').src = `negative_yoda.jpg`
+      document.getElementById('yodaQuote').innerText = 'Too many requests for yoda'
+      document.getElementById('kanyeQuote').innerText = 'Too many requests for yoda'
+      console.log(err) 
+      })
+  } 
+
+  document.getElementById('yodaQuote').addEventListener('mouseover', (e) => {
+    document.getElementById('kanyeQuote').style.display = 'block'
+    document.getElementById('yodaQuote').style.display = 'none'
+  })
+
+  document.getElementById('kanyeQuote').addEventListener('mouseout', (e) => {
+    document.getElementById('yodaQuote').style.display = 'block'
+    document.getElementById('kanyeQuote').style.display = 'none'
+  })
+</script>
+
+</html>
