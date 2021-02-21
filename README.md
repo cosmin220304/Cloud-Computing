@@ -60,8 +60,8 @@ example result:
 # Resulting response:
 ```json
 {
-    "kanyeQuote": "I hate when I'm on a flight and I wake up with a water bottle next to me like oh great now I gotta be responsible for this water bottle"
-    "yodaQuote": "When I 'm on a flight and I wake up with a water bottle next to me like oh great now I gotta be responsible for this water bottle,  I hate"
+    "kanyeQuote": "I hate when I'm on a flight and I wake up with a water bottle next to me like oh great now I gotta be responsible for this water bottle",
+    "yodaQuote": "When I 'm on a flight and I wake up with a water bottle next to me like oh great now I gotta be responsible for this water bottle,  I hate",
     "senimtent": "negative"
 }
 ```
