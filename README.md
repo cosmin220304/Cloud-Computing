@@ -1,8 +1,8 @@
 # Cloud-Computing Homework1
 
-Info about API:
--consumes 3 external APIs ( second uses the first, and third uses the second)
--logs requests, responses and latency
+Info about API:  
+-consumes 3 external APIs ( second uses the first, and third uses the second)  
+-logs requests, responses and latency  
 
 ## Kanye Quotes API:
 url: https://api.kanye.rest/  
