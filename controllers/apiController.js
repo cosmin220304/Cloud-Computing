@@ -37,7 +37,7 @@ const consumeSentimentAnalysisApi = async (text) => {
 const apiController = async (req, res, callback) => {
   try {
     const kanyeQuote = await consumeKanyeApi()
-    const yodaQuote = await consumeYodaApi(kanyeQuote)
+    // const yodaQuote = await consumeYodaApi(kanyeQuote)
     const sentiment = await consumeSentimentAnalysisApi(kanyeQuote)
 
     const data = { kanyeQuote, yodaQuote, sentiment }

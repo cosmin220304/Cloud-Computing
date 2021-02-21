@@ -1,7 +1,8 @@
 const http = require('http')
-// const { fork } = require('child_process');
+const { fork } = require('child_process')
 const { controller } = require('./controllers') 
 
+const logger = fork('./logger.js')
 const callback = (req, res, body) => {
   const { rawHeaders, httpVersion, method, socket, url, timerStart } = req
   const { remoteAddress, remoteFamily } = socket
@@ -14,13 +15,11 @@ const callback = (req, res, body) => {
     response: { statusCode, statusMessage, headers, body: body },
     latency: `${timeElapsed}s`
   } 
-  // console.log(JSON.stringify(loggedData)) 
+  logger.send(loggedData) 
 }
 
-let test = [] 
 http.createServer((req, res) => {
-  req.timerStart = process.hrtime()
-  test.push(req.url)
+  req.timerStart = process.hrtime() 
 
   if (req.method === "GET" && req.url === "/") {
     controller.view(req, res, callback)
@@ -28,6 +27,8 @@ http.createServer((req, res) => {
     controller.api(req, res, callback)
   } else if (req.method === "GET" && req.url.includes("yoda.jpg")) {
     controller.public(req, res, callback)
+  } else if (req.method === "GET" && req.url === "/metrics") {
+    controller.logs(req, res, callback)
   } else {
     controller.error(req, res, callback)
   }
