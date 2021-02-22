@@ -27,17 +27,18 @@ const consumeSentimentAnalysisApi = async (text) => {
   let returnedValue = ''
   for (let s of Object.keys(sentiment)) {
     if (sentiment[s] > maxx) {
-      maxx = sentiment
+      maxx = sentiment[s]
       returnedValue = s
     }
   }
+
   return returnedValue
 }
 
 const apiController = async (req, res, callback) => {
   try {
     const kanyeQuote = await consumeKanyeApi()
-    // const yodaQuote = await consumeYodaApi(kanyeQuote)
+    const yodaQuote = await consumeYodaApi(kanyeQuote)
     const sentiment = await consumeSentimentAnalysisApi(kanyeQuote)
 
     const data = { kanyeQuote, yodaQuote, sentiment }

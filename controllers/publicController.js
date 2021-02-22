@@ -7,7 +7,7 @@ const publicController = (req, res, callback) => {
             res.writeHead(500, { 'Content-Type': 'application/json' })
             res.end(error, () => callback(req, res, error)) 
         } else {
-            res.writeHead(200, { 'Content-Type': 'application/json' })
+            res.writeHead(200, { 'Content-Type': 'image/png' })
             res.end(content, () => callback(req, res, `${req.url} as base64 image`)) 
         }
     })
