@@ -19,7 +19,7 @@ const fetcher = {
         'method': 'POST',
         'hostname': hostname,
         'path': `/${path.join('/')}`,
-        'headers': {'Content-Type': 'application/x-www-form-urlencoded',  'Authorization': 'Bearer 6c21e36be508ce2de362b84c99259dbac7ac687c',},
+        'headers': {'Content-Type': 'application/x-www-form-urlencoded'},
         'maxRedirects': 20
       }
       var req = https.request(options, function (res) {
