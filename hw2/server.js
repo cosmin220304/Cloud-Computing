@@ -4,7 +4,7 @@ const { UserModel } = require('./user.model');
 const { ProjectModel } = require('./project.model');
 
 mongoose.connect(
-    "mongodb+srv://cosmin0123:masina0123@cluster0.ac2w3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    process.env.dburl,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
