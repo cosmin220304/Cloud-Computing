@@ -12,16 +12,16 @@ const ProjectSchema = new Schema(
             unique: true,
             required: true,
         }, 
-        owner: [
-            {type: Schema.Types.ObjectId, ref: 'users'}
-        ]
+        // owner: [
+        //     {type: Schema.Types.ObjectId, ref: 'users'}
+        // ]
     },
     {
         timestamps: true,
     }
 );
 
-const ProjectModel = new model('projects', ProjectSchema, 'users');;
+const ProjectModel = new model('projects', ProjectSchema);;
 
 module.exports = {
     ProjectModel,

@@ -4,7 +4,7 @@ const { UserModel } = require('./user.model');
 const { ProjectModel } = require('./project.model');
 
 mongoose.connect(
-    process.env.dburl,
+    asdasd,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -44,15 +44,24 @@ function useRoute(req, res) {
     req.on('end', () => {
 
         if (body !== '')  {
-            req.body = JSON.parse(body);
+            try {
+                req.body = JSON.parse(body);
+            }
+            catch {
+                res.writeHead(422, {"Content-Type": "text/plain"});
+                res.end();
+            }
         }
         
         for (const [regex, controller] of Object.entries(route)) {
             const found = resource.match(regex); 
 
-            req.params = {};
-            req.params.users = found[1];
-            req.params.projects = found[2];
+            if (found)
+            {
+                req.params = {};
+                req.params.users = found[1];
+                req.params.projects = found[2];
+            }
 
             if (found && found[0] == resource) {
                 ok = true;
@@ -70,7 +79,7 @@ function useRoute(req, res) {
 
 function addToRoutes(method, path, callback) {
     path = path.replace(/\//g, '\\/');
-    path = path.replace(/{id}/g, '(\\d+)'); 
+    path = path.replace(/{id}/g, '([a-z0-9A-Z]+)'); 
     routes[method][path] = callback;
 }
 
@@ -81,8 +90,9 @@ app = {
     delete: (path, callback) => addToRoutes('DELETE', path, callback),
 }
 
-app.get('/users', (req, res) => {
+app.get('/users', async (req, res) => {
     try {
+        users = await UserModel.find({})
         res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify(users)) 
     } catch(err) {
@@ -92,11 +102,14 @@ app.get('/users', (req, res) => {
     }
 });
 
-app.get('/users/{id}', (req, res) => { 
+app.get('/users/{id}', async (req, res) => { 
     try {
         const id = req.params.users
+        const user = await UserModel.findOne({
+            _id: id
+        })
         res.writeHead(200, { 'Content-Type': 'application/json' })
-        res.end(JSON.stringify(users[id])) 
+        res.end(JSON.stringify(user)) 
     } catch(err) {
         console.log(err)
         res.writeHead(500, { 'Content-Type': 'application/json' })

@@ -12,16 +12,16 @@ const UserSchema = new Schema(
             unique: true,
             required: true,
         }, 
-        projects: [
-            {type: Schema.Types.ObjectId, ref: 'projects'}
-        ]
+        // projects: [
+        //     {type: Schema.Types.ObjectId, ref: 'projects'}
+        // ]
     },
     {
         timestamps: true,
     }
 );
 
-const UserModel = new model('users', UserSchema, 'users');
+const UserModel = new model('users', UserSchema);
 
 module.exports = {
     UserModel,
