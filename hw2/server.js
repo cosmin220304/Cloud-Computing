@@ -3,10 +3,11 @@ const mongoose = require('mongoose')
 const qs = require('querystring');
 const { UserModel } = require('./user.model')
 const { ProjectModel } = require('./project.model')
+require('dotenv').config()
 var ObjectId = mongoose.Types.ObjectId;
 
 mongoose.connect(
-    sadasdasd
+    process.env.db_url,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -95,8 +96,15 @@ app = {
 app.get('/users', async (req, res) => {
     try {
         const filter = req.queryString
-        const pageSize = filter.pageSize || 100
-        const pageNumber = filter.pageNumber || 0
+
+        let pageSize = 100
+        let pageNumber = 0
+        if (filter.pageSize) {
+            pageSize = parseInt(filter.pageSize)
+        }
+        if (filter.pageNumber) {
+            pageNumber = parseInt(filter.pageNumber)
+        }
 
         delete filter.pageSize
         delete filter.pageNumber
@@ -233,21 +241,129 @@ app.delete('/users', async (req, res) => {
 })
 
 app.delete('/users/{id}', async (req, res) => {
-    const id = req.params.users 
-    if (!ObjectId.isValid(id)) {
-        res.writeHead(404, { 'Content-Type': 'application/json' })
+    try {
+        const id = req.params.users 
+        if (!ObjectId.isValid(id)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+    
+        const found = await UserModel.findOne({ _id: id })
+        if (!found) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+    
+        await UserModel.deleteOne({ _id : id })
+        res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end()
-        return
-    }
 
-    const found = await UserModel.findOne({ _id: id })
-    if (!found) {
-        res.writeHead(404, { 'Content-Type': 'application/json' })
+    } catch (err) {
+        console.log(err) 
+        res.writeHead(500, { 'Content-Type': 'application/json' })
         res.end()
-        return
     }
+})
 
-    await UserModel.deleteOne({ _id : id })
-    res.writeHead(200, { 'Content-Type': 'application/json' })
+app.post('/users/{id}/projects', async (req, res) => {
+    try {
+        const id = req.params.users 
+        if (!ObjectId.isValid(id)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+    
+        const foundUser = await UserModel.findOne({ _id: id })
+        if (!foundUser) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        } 
+
+        const project = await ProjectModel.create({ ...req.body, owner: foundUser}) 
+        res.writeHead(201, { 'Content-Type': 'application/json', 'Location': `/users/${id}/projects/${project._id}` })
+        res.end()
+
+    } catch (err) {
+        console.log(err)
+        if (err._message === 'projects validation failed') {
+            res.writeHead(422, { 'Content-Type': 'application/json' })
+            res.end(JSON.stringify({
+                'message': err.message
+            }))
+        }
+        else {
+            res.writeHead(500, { 'Content-Type': 'application/json' })
+            res.end()
+        }
+    }
+})  
+
+app.post('/users/{id}/projects/{id}', async (req, res) => {
+    res.writeHead(405, { 'Content-Type': 'application/json' })
     res.end()
 })
+
+app.get('/users/{id}/projects', async (req, res) => {
+    try {
+        const id = req.params.users 
+        if (!ObjectId.isValid(id)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+    
+        const foundUser = await UserModel.findOne({ _id: id })
+        if (!foundUser) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        } 
+
+        const projects = await ProjectModel.find({}) 
+        res.writeHead(201, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify(projects))
+
+    } catch (err) {
+        console.log(err) 
+        res.writeHead(500, { 'Content-Type': 'application/json' })
+        res.end() 
+    }
+})  
+
+app.get('/users/{id}/projects/{id}', async (req, res) => {
+    try {
+        const id = req.params.users 
+        if (!ObjectId.isValid(id)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+    
+        const foundUser = await UserModel.findOne({ _id: id })
+        if (!foundUser) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        } 
+
+        const projectId = req.params.projects 
+        if (!ObjectId.isValid(projectId)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        const projects = await ProjectModel.find({_id: projectId}) 
+        res.writeHead(201, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify(projects))
+
+    } catch (err) {
+        console.log(err)  
+        res.writeHead(500, { 'Content-Type': 'application/json' })
+        res.end() 
+    }
+})  

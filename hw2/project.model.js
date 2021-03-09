@@ -10,16 +10,14 @@ const ProjectSchema = new Schema(
             type: String, 
             required: true,
         }, 
-        owner: [
-            {type: Schema.Types.ObjectId, ref: 'users'}
-        ]
+        owner: {type: Schema.Types.ObjectId, ref: 'users'}
     },
     {
         timestamps: true,
     }
 );
 
-const ProjectModel = new model('projects', ProjectSchema, 'users')
+const ProjectModel = new model('projects', ProjectSchema, 'projects')
 
 module.exports = {
     ProjectModel,
