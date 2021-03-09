@@ -35,6 +35,7 @@ console.log('Server running at http://127.0.0.1:8001')
 
 
 function useRoute(req, res) {
+    req.url = req.url.trim()
     if (req.url.slice(-1) == '/') {
         req.url = req.url.slice(0, -1)
     }
@@ -284,7 +285,7 @@ app.post('/users/{id}/projects', async (req, res) => {
         } 
 
         const project = await ProjectModel.create({ ...req.body, owner: foundUser}) 
-        res.writeHead(201, { 'Content-Type': 'application/json', 'Location': `/users/${id}/projects/${project._id}` })
+        res.writeHead(200, { 'Content-Type': 'application/json', 'Location': `/users/${id}/projects/${project._id}` })
         res.end()
 
     } catch (err) {
@@ -309,6 +310,20 @@ app.post('/users/{id}/projects/{id}', async (req, res) => {
 
 app.get('/users/{id}/projects', async (req, res) => {
     try {
+        const filter = req.queryString
+
+        let pageSize = 100
+        let pageNumber = 0
+        if (filter.pageSize) {
+            pageSize = parseInt(filter.pageSize)
+        }
+        if (filter.pageNumber) {
+            pageNumber = parseInt(filter.pageNumber)
+        }
+
+        delete filter.pageSize
+        delete filter.pageNumber
+
         const id = req.params.users 
         if (!ObjectId.isValid(id)) {
             res.writeHead(404, { 'Content-Type': 'application/json' })
@@ -323,8 +338,8 @@ app.get('/users/{id}/projects', async (req, res) => {
             return
         } 
 
-        const projects = await ProjectModel.find({}) 
-        res.writeHead(201, { 'Content-Type': 'application/json' })
+        const projects = await ProjectModel.find(filter, {}, {skip: pageSize*pageNumber, limit: pageSize})
+        res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify(projects))
 
     } catch (err) {
@@ -447,7 +462,7 @@ app.delete('/users/{id}/projects', async (req, res) => {
             return
         }
  
-        await ProjectModel.delete({ owner : projectId })
+        await ProjectModel.deleteMany({ owner : userId })
         res.writeHead(204, { 'Content-Type': 'application/json' })
         res.end()
 
