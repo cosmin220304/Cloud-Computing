@@ -10,6 +10,9 @@ const ProjectSchema = new Schema(
             type: String, 
             required: true,
         }, 
+        type: {
+            type: String
+        },
         owner: {type: Schema.Types.ObjectId, ref: 'users'}
     },
     {

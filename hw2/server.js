@@ -257,7 +257,7 @@ app.delete('/users/{id}', async (req, res) => {
         }
     
         await UserModel.deleteOne({ _id : id })
-        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.writeHead(204, { 'Content-Type': 'application/json' })
         res.end()
 
     } catch (err) {
@@ -367,3 +367,134 @@ app.get('/users/{id}/projects/{id}', async (req, res) => {
         res.end() 
     }
 })  
+
+app.put('/users/{id}/projects', async (req, res) => {
+    res.writeHead(405, { 'Content-Type': 'application/json' })
+    res.end()
+})
+
+app.put('/users/{id}/projects/{id}', async (req, res) => {
+    try {
+        const userId = req.params.users
+        if (!ObjectId.isValid(userId)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        const foundUser = await UserModel.findOne({ _id: userId })
+        if (!foundUser) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        const projectId = req.params.projects
+        if (!ObjectId.isValid(projectId)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        const foundProject = await ProjectModel.findOne({ _id: projectId })
+        if (!foundProject) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        if (!req.body || req.body === {})
+        {
+            res.writeHead(204, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        await ProjectModel.updateOne(
+            { owner : userId, _id: projectId },
+            { $set: req.body }
+        )
+
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.end()
+
+    } catch (err) {
+        console.log(err)
+        if (err.code === 11000) {
+            res.writeHead(409, { 'Content-Type': 'application/json' })
+            res.end()
+        }
+        else {
+            res.writeHead(500, { 'Content-Type': 'application/json' })
+            res.end()
+        }
+    }
+})
+
+app.delete('/users/{id}/projects', async (req, res) => {
+    try {
+        const userId = req.params.users
+        if (!ObjectId.isValid(userId)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        const foundUser = await UserModel.findOne({ _id: userId })
+        if (!foundUser) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+ 
+        await ProjectModel.delete({ owner : projectId })
+        res.writeHead(204, { 'Content-Type': 'application/json' })
+        res.end()
+
+    } catch (err) {
+        console.log(err) 
+        res.writeHead(500, { 'Content-Type': 'application/json' })
+        res.end()
+    }
+})
+
+app.delete('/users/{id}/projects/{id}', async (req, res) => {
+    try {
+        const userId = req.params.users
+        if (!ObjectId.isValid(userId)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        const foundUser = await UserModel.findOne({ _id: userId })
+        if (!foundUser) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        const projectId = req.params.projects
+        if (!ObjectId.isValid(projectId)) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+
+        const foundProject = await ProjectModel.findOne({ _id: projectId })
+        if (!foundProject) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end()
+            return
+        }
+    
+        await ProjectModel.deleteOne({ _id : projectId })
+        res.writeHead(204, { 'Content-Type': 'application/json' })
+        res.end()
+
+    } catch (err) {
+        console.log(err) 
+        res.writeHead(500, { 'Content-Type': 'application/json' })
+        res.end()
+    }
+})
