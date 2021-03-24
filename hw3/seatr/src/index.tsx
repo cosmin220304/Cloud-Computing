@@ -3,10 +3,37 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.scss'
+import {
+  BrowserRouter as Router,
+  Route,
+} from "react-router-dom";
+import LoginPage from './bundles/auth/LoginPage';
+import ConfirmCodePage from './bundles/auth/ConfirmCodePage';
+import LoginWithPhonePage from './bundles/auth/LoginWithPhonePage';
+import TellUsMore from './bundles/auth/TellUsMorePage';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+        <Route exact path='/login'>
+          <LoginPage />
+        </Route>
+
+        <Route exact path='/confirm'>
+          <ConfirmCodePage/>
+        </Route>
+        <Route exact path='/login/details'>
+          <TellUsMore/>
+        </Route>
+
+        <Route exact path='/login/phone'>
+          <LoginWithPhonePage/>
+        </Route>
+
+        <Route exact path='/'>
+          <App />
+        </Route>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
