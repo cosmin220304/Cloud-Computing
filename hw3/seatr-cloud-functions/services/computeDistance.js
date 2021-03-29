@@ -1,4 +1,5 @@
 const { Client } = require("@googlemaps/google-maps-services-js");
+require('dotenv').config();
 const client = new Client({});
 
 module.exports.computeDistance = async (
@@ -12,14 +13,12 @@ module.exports.computeDistance = async (
       params: {
         destinations: [{ lat: destinationLat, lng: destinationLng }],
         origins: [{ lat: originsLat, lng: originsLng }],
-        key: "AIzaSyBurVLGz3_sK_P0Wt2RjXf_d3pU6hMh58g",
+        key: process.env.MAX_DISTANCE_API_KEY,
       },
       timeout: 5000,
     });
-    console.log(data.rows[0].elements[0].duration.text);
     return data.rows[0].elements[0].duration.text;
-  } catch (err) {
-    console.log(err)
+  } catch (err) { 
     return ""
   }
 };
