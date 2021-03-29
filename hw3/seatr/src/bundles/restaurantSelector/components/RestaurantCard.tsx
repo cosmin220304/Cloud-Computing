@@ -27,6 +27,7 @@ interface RestaurantCardProps {
   backgroundHref: string;
   logoHref: string;
   menu: Array<MenuItemDto>;
+  distance?: string;
 }
 
 interface MenuItemDto {
@@ -47,6 +48,7 @@ export default function RestaurantCard(
     logoHref,
     backgroundHref,
     menu,
+    distance,
   } = restaurantCardProps;
   const [open, setOpen] = useState(false);
   const handleOpenDialog = () => {
@@ -68,7 +70,7 @@ export default function RestaurantCard(
         elevation={1}
       >
         <div>
-          <div style={{ backgroundColor: "red", height: "100px" }}>
+          <div style={{ height: "100px" }}>
             <img
               style={{ width: "100%", height: "100%" }}
               src={backgroundHref}
@@ -165,10 +167,12 @@ export default function RestaurantCard(
             }}
             elevation={1}
           >
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <DriveEtaIcon />
-              <Typography>{`${nOfMinutes} min`}</Typography>
-            </div>
+            {distance && (
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <DriveEtaIcon />
+                <Typography>{distance}</Typography>
+              </div>
+            )}
             <Rating
               icon={<AttachMoneyIcon />}
               name="half-rating-read"

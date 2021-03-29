@@ -16,6 +16,7 @@ interface Restaurant {
   description: string;
   logoHref: string;
   name: string;
+  distance?: string;
 }
 interface RestaurantFinderProps {}
 
@@ -45,6 +46,7 @@ export default function RestaurantFinder(props: RestaurantFinderProps) {
           return res.json();
         })
         .then((restaurants: Array<Restaurant>) => {
+          console.log(restaurants);
           setRestaurants(restaurants);
         })
         .catch((err) => {
@@ -95,6 +97,7 @@ export default function RestaurantFinder(props: RestaurantFinderProps) {
                 backgroundHref={restaurant.backgroundHref}
                 logoHref={restaurant.logoHref}
                 menu={restaurant.menu}
+                distance={restaurant.distance}
                 priceRange={2}
                 starRating={4}
               />
