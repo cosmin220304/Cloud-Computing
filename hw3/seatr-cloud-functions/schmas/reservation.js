@@ -7,4 +7,4 @@ const postReservationSchema = Joi.object({
     restaurantId:Joi.string().required(),
 })
  
-module.exports = validator.query(postReservationSchema)
+module.exports = validator.body(postReservationSchema)
