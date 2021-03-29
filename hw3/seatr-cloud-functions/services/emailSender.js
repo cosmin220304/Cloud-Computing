@@ -16,11 +16,11 @@ module.exports.sendEmail = async (code) => {
     text: `Here's the code: ${code}`,
   });
 
-  // transporter.sendMail(
-  //   {
-  //     from: 'seatr.the.best@gmail.com',
-  //     to: 'stefan.tomsa99@gmail.com',
-  //     subject: 'SeatR',
-  //     text: `Here's the code: ${code}`
-  // })
+  transporter.sendMail(
+    {
+      from: 'seatr.the.best@gmail.com',
+      to: 'stefan.tomsa99@gmail.com',
+      subject: 'SeatR',
+      text: `Here's the code: ${code}`
+  })
 };
