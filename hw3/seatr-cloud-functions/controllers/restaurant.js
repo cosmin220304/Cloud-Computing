@@ -8,7 +8,7 @@ module.exports.getAllRestaurants = async (req,res)=>{
         res.status(200).json(restaurants)
     }
     catch(err){
-        res.status(500).json(JSON.stringify({error:err.message}))
+        res.status(500).json(({error:err.message}))
     }
 }
 
@@ -20,36 +20,36 @@ module.exports.createRestaurant = async (req,res)=>{
             data:req.body
         }
         await datastore.save(restaurant)
-        res.status(200).json(JSON.stringify({restaurant}))
+        res.status(200).json({restaurant})
     }
     catch(err){
-        res.status(500).json(JSON.stringify({message:err.message}))
+        res.status(500).json({message:err.message})
 
     }
 }
 
 module.exports.getRestaurantById= async(req,res)=>{
     try{
-        res.status(200).json(JSON.stringify({}))
+        res.status(200).json(({}))
     }
     catch(err){
-        res.status(500).json(JSON.stringify({message:err.message}))
+        res.status(500).json({message:err.message})
     }
 }
 
 module.exports.updateRestaurantById = async(req,res)=>{
     try{
-        res.status(200).json(JSON.stringify({}))
+        res.status(200).json({})
     }
     catch(err){
-        res.status(500).json(JSON.stringify({message:err.message}))
+        res.status(500).json({message:err.message})
     }
 }
 module.exports.removeRestaurantById = async(req,res)=>{
     try{
-        res.status(200).json(JSON.stringify({}))
+        res.status(200).json(({}))
     }
     catch(err){
-        res.status(500).json(JSON.stringify({message:err.message}))
+        res.status(500).json({message:err.message})
     }
 }

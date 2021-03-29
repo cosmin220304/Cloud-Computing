@@ -5,7 +5,7 @@ const router =require('./routes')
 const app = express()
 app.use(router)
 app.use((req,res)=>{
-    res.status(404).send(JSON.stringify({message:'not found'}))
+    res.status(404).json({message:'not found'})
 });
 
 // Set our GCF handler to our Express app.
