@@ -1,6 +1,16 @@
 body {
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
   margin: 0;
 }
 
-/*# sourceMappingURL=index.css.map */
+.list-element, .list-element-selected {
+  min-width: 6rem;
+  background: rgba(33, 33, 33, 0.08);
+  border-radius: 40%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.list-element-selected {
+  background: rgba(33, 33, 33, 0.18);
+}
