@@ -1,10 +1,7 @@
 export interface User {
-  id: string;
-  firstname: string;
-  lastname: string;
-  phoneNumber: string;
-  code: string;
-  codeCreationDate: Date;
+  email: string;
+  passHash: string;
+  reservationIds: [string];
 }
 
 export interface Restaurant {
