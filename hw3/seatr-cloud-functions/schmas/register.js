@@ -5,7 +5,7 @@ const registerSchema = Joi.object({
   firstname: Joi.string().required(),
   lastname: Joi.string().required(),
   phoneNumber: Joi.string().pattern(/^[0-9]+$/).required(),
-  code: Joi.string().required(),
+  code: Joi.number().required(),
 })
  
-module.exports = validator.query(registerSchema)
+module.exports = validator.body(registerSchema)

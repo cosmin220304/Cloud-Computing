@@ -4,8 +4,8 @@ const {loginValidator, registerValidator} = require('../schmas')
 
 const router =  Router()
 
-router.post('/login', authController.login)
-router.post('/register', authController.register)  
+router.post('/login', loginValidator, authController.login)
+router.post('/register', registerValidator, authController.register)  
 router.post('/sms', authController.generateAuthCode) 
 
 module.exports = router
