@@ -1,13 +1,27 @@
-const {restaurantController} = require('../controllers')
-const {Router} = require('express')
-const {restaurantValidator} = require('../schmas')
+const { restaurantController } = require("../controllers");
+const { Router } = require("express");
+const { restaurantValidator } = require("../schmas");
 
-const router =  Router()
+const router = Router();
 
-router.get('/restaurant',restaurantController.getAllRestaurants)
-router.get('/restaurant/:restaurantId',restaurantController.getRestaurantById)
-router.post('/restaurant',restaurantValidator, restaurantController.createRestaurant)
-router.put('/restaurant/:restaurantId',restaurantValidator,restaurantController.updateRestaurantById)
-router.delete('/restaurant/:restaurantId',restaurantController.removeRestaurantById)
+router.get("/restaurant", restaurantController.getAllRestaurants);
+router.get(
+  "/restaurant/:restaurantName",
+  restaurantController.getRestaurantById
+);
+router.post(
+  "/restaurant",
+  restaurantValidator,
+  restaurantController.createRestaurant
+);
+router.put(
+  "/restaurant/:restaurantName",
+  restaurantValidator,
+  restaurantController.updateRestaurantByName
+);
+router.delete(
+  "/restaurant/:restaurantName",
+  restaurantController.removeRestaurantByName
+);
 
-module.exports = router
+module.exports = router;
