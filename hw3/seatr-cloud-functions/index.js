@@ -1,10 +1,9 @@
 
 const express = require('express');
-const restaurantController = require('./controllers/restaurant')
+const router = require('./routes')
 // Create an Express object and routes (in order)
 const app = express();
-app.get('/restaurant', restaurantController.getAllRestaurants);
-app.post('/restaurant', restaurantController.createRestaurant);
+app.use(router)
 app.use((req,res)=>{
     res.status(404).send(JSON.stringify({message:'not found'}))
 });
