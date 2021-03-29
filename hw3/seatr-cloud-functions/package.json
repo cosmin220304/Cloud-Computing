@@ -58,7 +58,7 @@
     "vary": "^1.1.2"
   },
   "scripts": {
-    "start": "npx functions-framework --target=insertRestaurant [--signature-type=YOUR_SIGNATURE_TYPE]"
+    "start": "npx functions-framework --target=restaurants [--signature-type=YOUR_SIGNATURE_TYPE]"
   },
   "author": "",
   "license": "ISC"
