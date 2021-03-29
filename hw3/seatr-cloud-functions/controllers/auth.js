@@ -7,7 +7,7 @@ module.exports.register = async (req, res) => {
   try {
     let user = await datastore
       .createQuery("User")
-      .filter("phoneNumber", "=", req.body.phoneNumber)
+      .filter("email", "=", req.body.email)
       .run();
     user = user[0][0];
 
@@ -42,13 +42,13 @@ module.exports.generateAuthCode = async (req, res) => {
     let userKey = datastore.key("User");
     let user = await datastore
       .createQuery("User")
-      .filter("phoneNumber", "=", req.body.phoneNumber)
+      .filter("email", "=", req.body.email)
       .run();
     user = user[0][0];
 
     if (!user) {
       user = {
-        phoneNumber: req.body.phoneNumber,
+        email: req.body.email
       };
     } else {
       userKey = user[datastore.KEY];
@@ -63,7 +63,7 @@ module.exports.generateAuthCode = async (req, res) => {
       },
     };
 
-    sendEmail(code);
+    sendEmail(user.email, `Here's the code: ${code}`);
     var response = await datastore.upsert(updatedUser);
     res.status(200).json({ response });
   } catch (err) {
@@ -75,7 +75,7 @@ module.exports.login = async (req, res) => {
   try {
     let user = await datastore
       .createQuery("User")
-      .filter("phoneNumber", "=", req.body.phoneNumber)
+      .filter("email", "=", req.body.email)
       .run();
     user = user[0][0];
 
@@ -90,7 +90,7 @@ module.exports.login = async (req, res) => {
       return res.status(401).json({ message: "Code is no longer valid!" });
     }
 
-    res.status(200).json({ user });
+    res.status(200).json({ ...user, userKey: user[datastore.KEY] });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
