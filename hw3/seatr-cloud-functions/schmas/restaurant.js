@@ -15,4 +15,4 @@ const postRestaurantSchema = Joi.object({
   }))
 })
  
-module.exports = validator.query(postRestaurantSchema)
+module.exports = validator.body(postRestaurantSchema)
