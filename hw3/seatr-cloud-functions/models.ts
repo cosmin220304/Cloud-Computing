@@ -1,9 +1,8 @@
 export interface User {
-  id: string;
   firstname: string;
   lastname: string;
   phoneNumber: string;
-  code: string;
+  code: number;
   codeCreationDate: Date;
 }
 
