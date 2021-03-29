@@ -1,6 +1,9 @@
 const { Datastore } = require("@google-cloud/datastore");
-const datastore = new Datastore();
 const { v4: uuidv4 } = require("uuid");
+const { Storage } = require("@google-cloud/storage");
+
+const storage = new Storage();
+const datastore = new Datastore();
 
 module.exports.getAllRestaurants = async (req, res) => {
   try {
