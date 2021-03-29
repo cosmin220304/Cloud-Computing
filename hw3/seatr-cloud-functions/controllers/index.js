@@ -1,9 +1,9 @@
-const reservationController = require('./reservation')
-const restaurantController = require('./restaurant')
-const userController = require('./user')
+const reservationController = require("./reservation");
+const restaurantController = require("./restaurant");
+const userController = require("./user");
 
-module.exports={
-    reservationController,
-    restaurantController,
-    userController
-}
+module.exports = {
+  reservationController,
+  restaurantController,
+  userController,
+};
