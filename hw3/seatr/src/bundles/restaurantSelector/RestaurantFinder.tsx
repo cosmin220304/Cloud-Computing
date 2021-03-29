@@ -1,32 +1,106 @@
-import React, {useState} from 'react'
-import {Container, Paper, TextField} from "@material-ui/core";
-import {MenuOutlined, SearchOutlined} from "@material-ui/icons";
+import React, { useState, useEffect } from "react";
+import { Container, Paper, TextField, Grid, Button } from "@material-ui/core";
+import { MenuOutlined, SearchOutlined } from "@material-ui/icons";
 import RestaurantCard from "./components/RestaurantCard";
+import { useFormik } from "formik";
 
-interface RestaurantFinderProps{
-
+interface MenuItemDto {
+  photoHref: string;
+  name: string;
+  price: number;
 }
 
-export default function RestaurantFinder(props:RestaurantFinderProps){
+interface Restaurant {
+  menu: Array<MenuItemDto>;
+  backgroundHref: string;
+  description: string;
+  logoHref: string;
+  name: string;
+}
+interface RestaurantFinderProps {}
 
-    const [searchValue, setSearchValue] = useState('')
-    return(
-        <>
-            <div style={{height:'1rem'}} />
-            <Paper>
-                <Container style={{padding:'0.5rem',display:'flex', flexDirection:'row', width:'100%', alignItems:'center'}}>
-                    <TextField value={searchValue} fullWidth/>
-                    <SearchOutlined/>
-                    <MenuOutlined/>
-                </Container>
-            </Paper>
-            <div style={{height:'1rem'}} />
-            <RestaurantCard
-                backgroundUrl='https://static.takeaway.com/images/generic/heroes/41/41_chinese_43.jpg?timestamp=1610955949'
-                logoUrl='https://static.takeaway.com/images/restaurants/ro/ONRORQR/logo_465x320.png?timestamp=1610272382'
-                starRating={4}
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => value + 1); // update the state to force render
+}
+
+export default function RestaurantFinder(props: RestaurantFinderProps) {
+  const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
+  const formik = useFormik({
+    initialValues: {
+      searchString: "",
+    },
+    onSubmit: () => {},
+  });
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      fetch(
+        "/api/restaurant?" +
+          new URLSearchParams({
+            lat: String(position.coords.latitude),
+            lng: String(position.coords.longitude),
+          })
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .then((restaurants: Array<Restaurant>) => {
+          setRestaurants(restaurants);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  }, []);
+
+  return (
+    <>
+      <div style={{ height: "1rem" }} />
+      <Paper>
+        <Container
+          style={{
+            padding: "0.5rem",
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            alignItems: "center",
+          }}
+        >
+          <TextField
+            name={"searchString"}
+            label={"search"}
+            value={formik.values.searchString}
+            onChange={formik.handleChange}
+            fullWidth
+          />
+          <Button disabled={true} onClick={useForceUpdate}>
+            <SearchOutlined />
+          </Button>
+          <Button disabled={true}>
+            <MenuOutlined />
+          </Button>
+        </Container>
+      </Paper>
+      <div style={{ height: "1rem" }} />
+      <Grid container spacing={3}>
+        {restaurants
+          .filter((restaurant: Restaurant) =>
+            restaurant.name.startsWith(formik.values.searchString)
+          )
+          .map((restaurant: Restaurant) => (
+            <Grid item xs={12}>
+              <RestaurantCard
+                name={restaurant.name}
+                description={restaurant.description}
+                backgroundHref={restaurant.backgroundHref}
+                logoHref={restaurant.logoHref}
+                menu={restaurant.menu}
                 priceRange={2}
-                title={'La cao'}
-                description={'great chinese restaurant'}/>
-        </>)
+                starRating={4}
+              />
+            </Grid>
+          ))}
+      </Grid>
+    </>
+  );
 }

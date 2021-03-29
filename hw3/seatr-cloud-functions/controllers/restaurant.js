@@ -7,6 +7,7 @@ const datastore = new Datastore();
 
 module.exports.getAllRestaurants = async (req, res) => {
   try {
+    console.log("here i am");
     const [restaurants] = await datastore.createQuery("Restaurant").run();
     return res.status(200).json(restaurants);
   } catch (err) {
