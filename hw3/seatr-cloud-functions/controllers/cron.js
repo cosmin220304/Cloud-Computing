@@ -7,8 +7,12 @@ module.exports.sendNotifications = async (req, res) => {
     const [users] = await datastore.createQuery("User").run();
     console.log(users);
     users.forEach((user) => {
-      console.log("sendint email to", user.email);
-      sendEmail(user.email, `Don't forget to eat out today`);
+      try {
+        console.log("sendint email to", user.email);
+        sendEmail(user.email, `Don't forget to eat out today`);
+      } catch (err) {
+        console.log(err.message);
+      }
     });
     res.status(200).json({ message: "mails sent" });
   } catch (err) {
