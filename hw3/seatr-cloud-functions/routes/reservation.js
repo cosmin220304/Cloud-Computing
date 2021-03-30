@@ -4,10 +4,7 @@ const { reservationValidator } = require("../schmas");
 
 const router = Router();
 
-router.get(
-  "/restaurant/:restaurantName/reservation",
-  reservationController.getReservations
-);
+router.get("/reservation", reservationController.getReservations);
 router.post(
   "/restaurant/:restaurantName/reservation",
   reservationValidator,

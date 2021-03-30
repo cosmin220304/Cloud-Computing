@@ -9,7 +9,7 @@ import ConfirmCodePage from "./bundles/auth/ConfirmCodePage";
 import LoginWithPhonePage from "./bundles/auth/LoginWithPhonePage";
 import TellUsMore from "./bundles/auth/TellUsMorePage";
 import RestaurantReservations from "./bundles/reservations/restaurantReservations";
-import UserReservations from "./bundles/reservations/restaurantReservations";
+import UserReservations from "./bundles/reservations/userReservations";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -37,7 +37,7 @@ ReactDOM.render(
       </Route>
 
       <Route exact path="/restaurantReservation">
-        <RestaurantReservations />
+        <RestaurantReservations restaurantName={"la cao"} />
       </Route>
 
       <Route exact path="/">
