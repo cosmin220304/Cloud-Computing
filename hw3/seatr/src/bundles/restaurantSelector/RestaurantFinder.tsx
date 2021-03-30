@@ -36,11 +36,14 @@ export default function RestaurantFinder(props: RestaurantFinderProps) {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function (position) {
       fetch(
-        "/api/restaurant?" +
+        "https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server/api/restaurant?" +
           new URLSearchParams({
             lat: String(position.coords.latitude),
             lng: String(position.coords.longitude),
-          })
+          }),
+        {
+          mode: "no-cors",
+        }
       )
         .then((res) => {
           return res.json();

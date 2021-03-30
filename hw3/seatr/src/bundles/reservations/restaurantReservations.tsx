@@ -16,7 +16,12 @@ const RestaurantReservations = (props: RestaurantReservationsProps) => {
   const [reservations, setReservations] = useState<Array<Reservation>>([]);
 
   useEffect(() => {
-    fetch(`/api/reservation`)
+    fetch(
+      `https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server/api/reservation`,
+      {
+        mode: "no-cors",
+      }
+    )
       .then((res) => res.json())
       .then((reservations: Array<Reservation>) => {
         console.log(reservations);

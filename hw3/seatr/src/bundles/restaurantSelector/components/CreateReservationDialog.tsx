@@ -23,17 +23,21 @@ const CreateReservationDialog = (props: DialogProps) => {
       email: "",
     },
     onSubmit: () => {
-      fetch(`/api/restaurant/${restaurantName}/reservation`, {
-        method: "POST",
-        body: JSON.stringify({
-          reservationDate: formik.values.date,
-          seatCount: formik.values.seatCount,
-          userEmail: formik.values.email,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        `https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server/api/restaurant/${restaurantName}/reservation`,
+        {
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify({
+            reservationDate: formik.values.date,
+            seatCount: formik.values.seatCount,
+            userEmail: formik.values.email,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((res) => res.json())
         .then((res) => {})
         .catch((err) => {
