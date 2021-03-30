@@ -1,10 +1,10 @@
-const Joi = require('joi')
-const validator = require('express-joi-validation').createValidator({})
+const Joi = require("joi");
+const validator = require("express-joi-validation").createValidator({});
 
 const postReservationSchema = Joi.object({
-    reservationDate:Joi.date().required(),
-    seatCount:Joi.number().required(),
-    restaurantId:Joi.string().required(),
-})
- 
-module.exports = validator.body(postReservationSchema)
+  reservationDate: Joi.date().required(),
+  seatCount: Joi.number().required(),
+  userEmail: Joi.string().email().required(),
+});
+
+module.exports = validator.body(postReservationSchema);

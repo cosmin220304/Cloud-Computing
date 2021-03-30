@@ -2,21 +2,44 @@ const { Datastore } = require("@google-cloud/datastore");
 const { json } = require("express");
 const datastore = new Datastore();
 
-module.exports.getAllReservations = async (req, res) => {
+module.exports.getReservations = async (req, res) => {
   try {
-    const reservations = await datastore.createQuery("Reservation").run();
-    res.status(200).json(reservations);
+    const restaurantName = req.query.restaurantName;
+    const reservationDate = req.query.reservationDate;
+    const userEmail = req.query.userEmail;
+
+    let reservationsQuery = datastore.createQuery("Reservation");
+
+    if (userEmail) {
+      reservationsQuery = reservationsQuery.filter("userEmail", "=", userEmail);
+    }
+    if (restaurantName) {
+      reservationQuery = reservationsQuery.filter(
+        "restaurantName",
+        "=",
+        restaurantName
+      );
+    }
+    if (reservationDate) {
+      reservationQuery = reservationsQuery.filter(
+        "reservationDate",
+        "=",
+        reservationDate
+      );
+    }
+
+    const reservations = await reservationsQuery.run();
+    return res.status(200).json({ reservations });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
-module.exports.getAllReservationsByRestaurantId = async (req, res) => {
+module.exports.getAllReservationsByRestaurantName = async (req, res) => {
   try {
-    const restaurantId = req.path.restaurantId;
+    const restaurantName = req.path.restaurantName;
     const reservations = await datastore
       .createQuery("Reservation")
-      .filter("restaurantId", "=", restaurantId)
+      .filter("restaurantName", "=", restaurantName)
       .run();
     res.status(200).json(reservations);
   } catch (err) {
@@ -24,14 +47,16 @@ module.exports.getAllReservationsByRestaurantId = async (req, res) => {
   }
 };
 
-module.exports.getReservationById = async (req, res) => {
+module.exports.getReservationByDateTime = async (req, res) => {
   try {
-    const reservationId = req.path.reservationId;
+    const restaurantName = req.params.restaurantName;
+    const reservationDate = req.params.reservationDate;
     const reservations = await datastore
       .createQuery("Reservation")
-      .filter("restaurantId", "=", restaurantId)
+      .filter("restaurantName", "=", restaurantName)
+      .filter("reservationDate", "=", reservationDate)
       .run();
-    res.status(200).json({});
+    res.status(200).json(reservations);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -40,13 +65,16 @@ module.exports.getReservationById = async (req, res) => {
 module.exports.createReservation = async (req, res) => {
   try {
     const reservationKey = datastore.key("Reservation");
+    const restaurantName = req.params.restaurantName;
     const reservation = await datastore.insert({
       key: reservationKey,
       data: {
+        restaurantName,
         ...req.body,
       },
     });
-    res.status(200).json(reservation);
+    console.log(reservation);
+    res.status(200).json({ reservation });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

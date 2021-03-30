@@ -5,16 +5,16 @@ const { reservationValidator } = require("../schmas");
 const router = Router();
 
 router.get(
-  "/restaurant/:restaurantId/reservation",
-  reservationController.getAllReservationsByRestaurantId
+  "/restaurant/:restaurantName/reservation",
+  reservationController.getReservations
 );
 router.post(
-  "/restaurant/:restaurantId/reservation",
+  "/restaurant/:restaurantName/reservation",
   reservationValidator,
   reservationController.createReservation
 );
 router.delete(
-  "/restaurant/:restaurantId/reservation/:reservationId",
+  "/restaurant/:restaurantName/reservation/:reservationId",
   reservationController.removeReservationById
 );
 

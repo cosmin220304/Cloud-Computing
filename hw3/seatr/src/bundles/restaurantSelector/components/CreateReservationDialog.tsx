@@ -15,12 +15,30 @@ import { useFormik } from "formik";
 import React from "react";
 
 const CreateReservationDialog = (props: DialogProps) => {
+  const restaurantName = "la cao";
   const formik = useFormik({
     initialValues: {
       date: null,
       seatCount: 1,
+      email: "",
     },
     onSubmit: () => {
+      fetch(`/api/restaurant/${restaurantName}/reservation`, {
+        method: "POST",
+        body: JSON.stringify({
+          reservationDate: formik.values.date,
+          seatCount: formik.values.seatCount,
+          userEmail: formik.values.email,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {})
+        .catch((err) => {
+          console.log(err);
+        });
       console.log(formik.values);
     },
   });
@@ -29,6 +47,16 @@ const CreateReservationDialog = (props: DialogProps) => {
       <Dialog {...props}>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={4} style={{ padding: "1rem" }}>
+            <Grid item xs={12}>
+              <TextField
+                label="email"
+                name="email"
+                type="email"
+                fullWidth
+                value={formik.values.email}
+                onChange={formik.handleChange}
+              />
+            </Grid>
             <Grid item xs={12}>
               <KeyboardDatePicker
                 fullWidth
