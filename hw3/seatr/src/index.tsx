@@ -8,6 +8,8 @@ import LoginPage from "./bundles/auth/LoginPage";
 import ConfirmCodePage from "./bundles/auth/ConfirmCodePage";
 import LoginWithPhonePage from "./bundles/auth/LoginWithPhonePage";
 import TellUsMore from "./bundles/auth/TellUsMorePage";
+import RestaurantReservations from "./bundles/reservations/restaurantReservations";
+import UserReservations from "./bundles/reservations/restaurantReservations";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,12 +21,23 @@ ReactDOM.render(
       <Route exact path="/confirm">
         <ConfirmCodePage />
       </Route>
+
       <Route exact path="/login/details">
         <TellUsMore />
       </Route>
 
       <Route exact path="/login/phone">
         <LoginWithPhonePage />
+      </Route>
+      {
+        // the routing should be based on context rather than url
+      }
+      <Route exact path="/userReservation">
+        <UserReservations />
+      </Route>
+
+      <Route exact path="/restaurantReservation">
+        <RestaurantReservations />
       </Route>
 
       <Route exact path="/">
