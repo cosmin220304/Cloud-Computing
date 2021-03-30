@@ -2,8 +2,8 @@
   "name": "seatr",
   "version": "0.1.0",
   "private": true,
-  "comment":{"proxy": "http://localhost:8080"},
-  "proxy": "https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server",
+  "comment":{"proxyLocal": "http://localhost:8080","proxyDeploy":"https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server"},
+  "proxy":  "http://localhost:8080",
   "dependencies": {
     "@date-io/date-fns": "1.3.9",
     "@material-ui/core": "^4.11.3",

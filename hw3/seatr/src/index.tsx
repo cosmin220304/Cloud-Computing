@@ -10,40 +10,44 @@ import LoginWithPhonePage from "./bundles/auth/LoginWithPhonePage";
 import TellUsMore from "./bundles/auth/TellUsMorePage";
 import RestaurantReservations from "./bundles/reservations/restaurantReservations";
 import UserReservations from "./bundles/reservations/userReservations";
+import Providers from "./context";
+import { AuthProvider } from "./context/auth-context";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <Route exact path="/login">
-        <LoginPage />
-      </Route>
+    <AuthProvider>
+      <Router>
+        <Route exact path="/login">
+          <LoginPage />
+        </Route>
 
-      <Route exact path="/confirm">
-        <ConfirmCodePage />
-      </Route>
+        <Route exact path="/confirm">
+          <ConfirmCodePage />
+        </Route>
 
-      <Route exact path="/login/details">
-        <TellUsMore />
-      </Route>
+        <Route exact path="/login/details">
+          <TellUsMore />
+        </Route>
 
-      <Route exact path="/login/phone">
-        <LoginWithPhonePage />
-      </Route>
-      {
-        // the routing should be based on context rather than url
-      }
-      <Route exact path="/userReservation">
-        <UserReservations />
-      </Route>
+        <Route exact path="/login/phone">
+          <LoginWithPhonePage />
+        </Route>
+        {
+          // the routing should be based on context rather than url
+        }
+        <Route exact path="/userReservation">
+          <UserReservations />
+        </Route>
 
-      <Route exact path="/restaurantReservation">
-        <RestaurantReservations restaurantName={"la cao"} />
-      </Route>
+        <Route exact path="/restaurantReservation">
+          <RestaurantReservations restaurantName={"la cao"} />
+        </Route>
 
-      <Route exact path="/">
-        <App />
-      </Route>
-    </Router>
+        <Route exact path="/">
+          <App />
+        </Route>
+      </Router>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

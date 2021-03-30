@@ -1,7 +1,9 @@
 const { Datastore } = require("@google-cloud/datastore");
 const { json } = require("express");
 const datastore = new Datastore();
+const { v4: uuidv4 } = require("uuid");
 
+const { sendEmail } = require("../services/emailSender");
 module.exports.getReservations = async (req, res) => {
   try {
     const restaurantName = req.query.restaurantName;
@@ -28,10 +30,51 @@ module.exports.getReservations = async (req, res) => {
       );
     }
 
-    const [[reservations]] = await reservationsQuery.run();
-    return res.status(200).json({ reservations });
+    const [reservations] = await reservationsQuery.run();
+    return res.status(200).json(reservations);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports.changeReservationStatus = async (req, res) => {
+  try {
+    const status = req.body.status;
+    const reservationId = req.params.reservationId;
+    let reservationsQuery = await datastore
+      .createQuery("Reservation")
+      .filter("id", "=", reservationId)
+      .run()
+      .then((results) => {
+        const restaurants = results[0];
+        const reservationKey = restaurants[0][datastore.KEY];
+        return reservationKey;
+      })
+      .then(async (reservationKey) => {
+        const [reservation] = await datastore.get(reservationKey);
+        return { reservationKey, reservation };
+      })
+      .then(({ reservationKey, reservation }) => {
+        sendEmail(
+          reservation.userEmail,
+          `Your reservation status changed to ${status}`
+        );
+        return datastore.upsert({
+          key: reservationKey,
+          data: { ...reservation, status: status },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
+    if (reservationsQuery === null)
+      return res.status(404).json({ message: "not found" });
+    console.log(reservationsQuery);
+    return res.status(200).json({ message: "changed status" });
+  } catch (err) {
+    console.log("Error changing reservation status > ", err.message);
+    return res.status(500).json({ message: err.message });
   }
 };
 module.exports.getAllReservationsByRestaurantName = async (req, res) => {
@@ -71,6 +114,8 @@ module.exports.createReservation = async (req, res) => {
       data: {
         restaurantName,
         ...req.body,
+        id: uuidv4(),
+        status: "PENDING",
       },
     });
     console.log(reservation);

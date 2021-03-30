@@ -10,6 +10,10 @@ router.post(
   reservationValidator,
   reservationController.createReservation
 );
+router.post(
+  "/reservation/:reservationId",
+  reservationController.changeReservationStatus
+);
 router.delete(
   "/restaurant/:restaurantName/reservation/:reservationId",
   reservationController.removeReservationById
