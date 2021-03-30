@@ -9,4 +9,4 @@ app.use("/api", (req, res) => {
 });
 
 // Set our GCF handler to our Express app.
-module.exports.restaurants = app;
+module.exports.app = app;
