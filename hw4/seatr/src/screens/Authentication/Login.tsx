@@ -1,8 +1,8 @@
-import { useEffect, useContext } from "react"
-import firebaseConfig from "../../utils/firebaseConfig"
-import * as firebaseui from "firebaseui"
-import "firebaseui/dist/firebaseui.css"
-import firebase from "firebase"
+import { useEffect, useContext } from 'react'
+import firebaseConfig from '../../utils/firebaseConfig'
+import * as firebaseui from 'firebaseui'
+import 'firebaseui/dist/firebaseui.css'
+import firebase from 'firebase'
 import { AuthContext } from '../../utils/AuthContext' 
 
 interface IProps {
@@ -26,25 +26,31 @@ export default function Login({ setIsNewUser }: IProps) {
           setIsNewUser(isNewUser)
           return false
         },
-        uiShown: () => {
-          document.querySelectorAll<HTMLElement>(".firebaseui-card-footer")[0].style.display = "none"
+        uiShown: () => { 
+          // Note: forgive me for I have sinned but I did what I had to do ->
+          //        -> to make it look like in design without actually implementing the hard stuff
+          document.querySelectorAll<HTMLElement>('#firebaseui-auth-container')[0].style.paddingTop = '5rem'
+          document.querySelectorAll<HTMLElement>('.firebaseui-card-header')[0].className = ''
+          document.querySelectorAll<HTMLElement>('.firebaseui-title')[0].style.textAlign = 'center'
+          document.querySelectorAll<HTMLElement>('.firebaseui-container')[0].style.backgroundColor = 'transparent'
+          document.querySelectorAll<HTMLElement>('.firebaseui-container')[0].classList.remove('mdl-shadow--2dp')
+          document.querySelectorAll<HTMLElement>('.firebaseui-card-footer')[0].style.display = 'none'
         },
       },
       signInOptions: [
         {
           provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-          defaultCountry: "RO",
+          defaultCountry: 'RO',
         },
       ],
-    }
-    var ui = new firebaseui.auth.AuthUI(firebase.auth())
-    ui.start("#firebaseui-auth-container", uiConfig)
+    } 
+    var ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth())
+    ui.start('#firebaseui-auth-container', uiConfig)
   }, [])
 
   return (
-    <>
-      <h1>REACT PHONE AUTHENTICATION</h1>
-      <div id="firebaseui-auth-container"></div>
+    <> 
+      <div id='firebaseui-auth-container'></div>
     </>
   )
 }

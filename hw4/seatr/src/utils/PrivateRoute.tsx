@@ -1,5 +1,6 @@
 //Protected route wrapper
-//https://stackoverflow.com/questions/47476186/when-user-is-not-logged-in-redirect-to-login-reactjs
+//inspired by:
+// https://stackoverflow.com/questions/47476186/when-user-is-not-logged-in-redirect-to-login-reactjs
 import { useContext } from 'react'
 import { Redirect, Route, useLocation } from 'react-router-dom'
 import { AuthContext } from './AuthContext'

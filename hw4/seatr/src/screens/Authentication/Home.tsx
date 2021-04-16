@@ -29,7 +29,7 @@ export default function Home({ setGoToLogin }: IProps) {
           </CardActionArea>
         </Card>
 
-        <Typography className="bold italic" onClick={goToLogin}>
+        <Typography className="bold italic cursor-pointer" onClick={goToLogin}>
           New here? Create an account!
         </Typography>
       </div>
