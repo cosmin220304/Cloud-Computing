@@ -3,23 +3,15 @@ body {
   margin: 0;
 }
 
-.list-element {
+.list-element, .list-element-selected {
   min-width: 6rem;
-  min-height: 3rem;
   background: rgba(33, 33, 33, 0.08);
-  border-radius: 150px;
+  border-radius: 40%;
   cursor: pointer;
   user-select: none;
-  display: grid;
-  place-items: center;
-}
-
-.list-element:active {
-  background: rgba(202, 13, 13, 0.18);
 }
 
 .list-element-selected {
-  @extend .list-element;
   background: rgba(33, 33, 33, 0.18);
 }
 

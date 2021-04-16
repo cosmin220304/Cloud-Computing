@@ -19,17 +19,17 @@ export default function Authentication() {
 
   if (isNewUser) {
     return (
-      <TellUsMore />
+      <TellUsMore setIsNewUser={setIsNewUser} />
     )
   }
-
-  if (user) {
-    return(
-      <Redirect to={{pathname: location.state.prevPath}} />
+ 
+  if (!user || user === 'undefined') {
+    return ( 
+      <Login setIsNewUser={setIsNewUser} />
     )
   }
-
-  return ( 
-    <Login setIsNewUser={setIsNewUser} />
+  
+  return(
+    <Redirect to={{pathname: location.state ? location.state.prevPath : '/'}} />
   )
 }

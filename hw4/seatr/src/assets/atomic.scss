@@ -290,3 +290,20 @@
 .hidden {
   display: hidden;
 }
+
+.flex {
+  display: flex;
+  &-column {
+    flex-direction: column;
+  }
+}
+
+.gap {
+  &-1 {
+    gap: 1rem; 
+  }
+
+  &-2 {
+    gap: 2rem; 
+  }
+}

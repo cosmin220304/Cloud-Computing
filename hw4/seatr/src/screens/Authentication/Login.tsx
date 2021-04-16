@@ -22,8 +22,11 @@ export default function Login({ setIsNewUser }: IProps) {
         signInSuccessWithAuthResult: (authResult: any) => {
           const user = authResult.user  
           const isNewUser = authResult.additionalUserInfo.isNewUser
-          setUser(user)
           setIsNewUser(isNewUser)
+          setUser({
+            phoneNumber: user.phoneNumber,
+            uid: user.uid,
+          })
           return false
         },
         uiShown: () => { 

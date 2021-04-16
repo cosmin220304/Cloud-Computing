@@ -8,13 +8,14 @@ import { AuthContext } from './AuthContext'
 export default function PrivateRoute({component: Component, ...rest}: any) {
   let location = useLocation();
   const [user, ] = useContext(AuthContext) 
-  
+  console.log('authentification details:', user)
+
   return (
     <Route {...rest}
       render={(props) =>
-        user
-        ? (<Component {...props} />) 
-        : (<Redirect to={{ pathname: '/login', state: { prevPath: location.pathname } }}/>)
+        !user || user === 'undefined'
+        ? (<Redirect to={{ pathname: '/login', state: { prevPath: location.pathname } }}/>)
+        : (<Component {...props} />) 
       }
     />
   )
