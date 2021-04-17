@@ -1,9 +1,6 @@
 name: build and deploy front end application
 
-on:
-  push:
-    paths:
-    - 'hw4/client/**'
+on: push
 
 jobs:
   build-and-deploy:
