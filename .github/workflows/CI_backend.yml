@@ -1,0 +1,38 @@
+# name: Build and Deploy
+
+# on: push
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#     - uses: actions/checkout@main
+    
+#     - name: Use Node.js 14
+#       uses: actions/setup-node@v1
+#       with:
+#         node-version: '14.x'
+    
+    
+#     - name: npm install and build
+#       run: | 
+#         npm install
+#         CI='' npm run build 
+#       working-directory: ./hw4/seatr
+#       env:
+#         REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}
+#         REACT_APP_AUTHDOMAIN: ${{ secrets.REACT_APP_AUTHDOMAIN }}
+#         REACT_APP_PID: ${{ secrets.REACT_APP_PID }}
+#         REACT_APP_SB: ${{ secrets.REACT_APP_SB }}
+#         REACT_APP_SID: ${{ secrets.REACT_APP_SID }}
+#         REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
+#         REACT_APP_MID: ${{ secrets.REACT_APP_MID }}
+         
+#     - name: 'Deploy to Azure WebApp'
+#       uses: azure/webapps-deploy@v2
+#       with:
+#         app-name: 'seatr-the-best'
+#         slot-name: 'production'
+#         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+#         package: ./hw4/seatr/build
