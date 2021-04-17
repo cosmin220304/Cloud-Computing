@@ -3,7 +3,7 @@ name: build and deploy front end application
 on:
   push:
     paths:
-    - './hw4/client/**'
+    - 'hw4/client/**'
 
 jobs:
   build-and-deploy:
