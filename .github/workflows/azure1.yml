@@ -18,35 +18,40 @@
 on: push
 
 env:
-  AZURE_WEBAPP_NAME: seatr-the-best   # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: 'hw4/seatr/build'  # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '14.15.5'             # set this to the node version to use
-  WORKING_DIRECTORY: './hw4/seatr'
-  
+  AZURE_WEBAPP_NAME: seatr-the-best    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: './hw4/seatr/build'      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '14.15.5'                # set this to the node version to use
+
+defaults:
+  run:
+    working-directory: ./hw4/seatr
+    
 jobs:
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
+    environment: production
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
+        working-directory: ./hw4/seatr
         node-version: ${{ env.NODE_VERSION }}
-    - name: npm install, build
+    - name: npm install, build, and test
+      working-directory: ./hw4/seatr
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
         npm install
-        npm run build
-      working-directory: ${{ env.WORKING_DIRECTORY }}
+        CI='' npm run build 
     - name: add process.json
-      run: |
+      working-directory: ./hw4/seatr
+      run: | 
         echo '{ script: "serve", env: { PM2_SERVE_SPA: "true", PM2_SERVE_HOMEPAGE: "/index.html" } }' >> build/process.json
-      working-directory: ${{ env.WORKING_DIRECTORY }}
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        package: ${{ secrets.AZURE_WEBAPP_PACKAGE_PATH }}
