@@ -19,7 +19,7 @@ on: push
 
 env:
   AZURE_WEBAPP_NAME: seatr-the-best    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: 'build'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: './hw4/seatr/build'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '14.15.5'                # set this to the node version to use
 
 defaults:
