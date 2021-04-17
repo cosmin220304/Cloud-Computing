@@ -44,6 +44,7 @@ jobs:
     - name: add process.json
       working-directory: ./hw4/seatr
       run: |
+        echo ls
         echo '{ script: "serve", env: { PM2_SERVE_SPA: "true", PM2_SERVE_HOMEPAGE: "/index.html" } }' >> build/process.json
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
