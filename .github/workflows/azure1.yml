@@ -36,17 +36,14 @@ jobs:
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v2
       with:
-        working-directory: ./hw4/seatr
         node-version: ${{ env.NODE_VERSION }}
     - name: npm install, build, and test
-      working-directory: ./hw4/seatr
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
         npm install
         CI='' npm run build 
     - name: add process.json
-      working-directory: ./hw4/seatr
       run: | 
         echo '{ script: "serve", env: { PM2_SERVE_SPA: "true", PM2_SERVE_HOMEPAGE: "/index.html" } }' >> build/process.json
     - name: 'Deploy to Azure WebApp'
