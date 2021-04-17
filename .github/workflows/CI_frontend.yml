@@ -1,6 +1,9 @@
-name: Build and Deploy
+name: build and deploy front end application
 
-on: push
+on:
+  push:
+    paths:
+    - './hw4/client/**'
 
 jobs:
   build-and-deploy:
@@ -19,7 +22,7 @@ jobs:
       run: | 
         npm install
         CI='' npm run build 
-      working-directory: ./hw4/seatr
+      working-directory: ./hw4/client
       env:
         REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}
         REACT_APP_AUTHDOMAIN: ${{ secrets.REACT_APP_AUTHDOMAIN }}
@@ -35,4 +38,4 @@ jobs:
         app-name: 'seatr-the-best'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ./hw4/seatr/build
+        package: ./hw4/client/build
