@@ -167,12 +167,11 @@ export default function RestaurantCard(
             }}
             elevation={1}
           >
-            {distance && (
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <DriveEtaIcon />
-                <Typography>{distance}</Typography>
-              </div>
-            )}
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <DriveEtaIcon />
+              <Typography>{distance}</Typography>
+            </div>
+
             <Rating
               icon={<AttachMoneyIcon />}
               name="half-rating-read"
