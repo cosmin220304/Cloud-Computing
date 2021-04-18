@@ -1,0 +1,29 @@
+body {
+  background-color: #f6f6f6;
+  margin: 0;
+}
+
+.list-element {
+  min-width: 6rem;
+  min-height: 3rem;
+  background: rgba(33, 33, 33, 0.08);
+  border-radius: 150px;
+  cursor: pointer;
+  user-select: none;
+  display: grid;
+  place-items: center;
+}
+
+.list-element:active {
+  background: rgba(202, 13, 13, 0.18);
+}
+
+.list-element-selected {
+  @extend .list-element;
+  background: rgba(33, 33, 33, 0.18);
+}
+
+.logo {
+  width: 200px;
+  height: 200px;
+}

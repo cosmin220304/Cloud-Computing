@@ -31,50 +31,14 @@ const RestaurantReservations = (props: RestaurantReservationsProps) => {
       headers: { "Content-Type": "application/json" },
     });
 
-    setLoading((loading) =>
-      loading.map((val, idx) =>
-        reservationId === reservations[idx].id ? false : val
-      )
-    );
-    updateReservations();
-  };
-  const handleAccept = async (reservationId: string) => {
-    setLoading((loading) =>
-      loading.map((val, idx) =>
-        reservationId === reservations[idx].id ? true : val
-      )
-    );
-    await fetch(`/api/reservation/${reservationId}`, {
-      method: "POST",
-      body: JSON.stringify({
-        status: "ACCEPTED",
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-    setLoading((loading) =>
-      loading.map((val, idx) =>
-        reservationId === reservations[idx].id ? false : val
-      )
-    );
-    updateReservations();
-  };
-  const updateReservations = () => {
+  useEffect(() => {
     fetch(
-      "/api/reservation?" +
-        new URLSearchParams({
-          restaurantName: restaurantName,
-        })
+      `https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server/api/reservation`,
+      {
+        mode: "no-cors",
+      }
     )
-      .then((res) => {
-        return res.json();
-      })
-      .then((res: Array<any>) => {
-        setLoading(res.map(() => true));
-        return res.map((val) => ({
-          ...val,
-          reservationDate: new Date(val.reservationDate),
-        }));
-      })
+      .then((res) => res.json())
       .then((reservations: Array<Reservation>) => {
         setLoading(reservations.map(() => false));
         setReservations(
