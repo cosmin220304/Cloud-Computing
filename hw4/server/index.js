@@ -15,7 +15,9 @@ loadMongoose().then((res) => {
   app.use("/api", (req, res) => {
     res.status(404).json({ message: "not found" });
   });
-  app.listen(8080, () => {
-    console.log("listening on 8080");
+
+  const port = process.env.PORT || 8080;
+  app.listen(port, () => {
+    console.log(`listening on ${port}`);
   });
 });
