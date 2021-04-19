@@ -4,17 +4,15 @@ import { Paper, Typography, Grid } from "@material-ui/core";
 interface MenuItemProps {
   name: string;
   price: number;
-  photoHref: string;
+  quantity: number;
 }
+
 const MenuItemCard = (props: MenuItemProps) => {
-  const { name, price, photoHref } = props;
+  const { name, price, quantity } = props;
   const description = "lorem ipsum descriptiones";
   return (
     <Paper>
       <Grid container>
-        <Grid item xs={4}>
-          <img src={photoHref} width={"100%"} />
-        </Grid>
         <Grid item xs={8}>
           <div
             style={{

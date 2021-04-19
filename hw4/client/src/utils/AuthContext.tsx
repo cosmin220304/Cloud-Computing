@@ -1,25 +1,21 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react'
-import { useCookies } from 'react-cookie'
+import React, { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 
-const AuthContext = React.createContext<[any, Function]>([{}, ()=>{}])
+const AuthContext = React.createContext<[any, Function]>([{}, () => {}]);
 
 const AuthContextWrapper = ({ children }: any) => {
-  const [cookies, setCookie] = useCookies(['user']);
-  const [user, setUser] = useState(cookies.user)
+  const [cookies, setCookie] = useCookies(["user"]);
+  const [user, setUser] = useState(cookies.user);
 
-  useEffect(()=>{
-    setCookie('user', user)
-  }, [user])
-  
+  useEffect(() => {
+    setCookie("user", user);
+  }, [user]);
+
   return (
     <AuthContext.Provider value={[user, setUser]}>
-        {children}
+      {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export {
-  AuthContextWrapper,
-  AuthContext,
-}
+export { AuthContextWrapper, AuthContext };
