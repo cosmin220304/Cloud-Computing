@@ -9,7 +9,6 @@ module.exports.computeDistance = async (
   originsLng
 ) => {
   try {
-    console.log(process.env.MAX_DISTANCE_API_KEY);
     var { data } = await client.distancematrix({
       params: {
         destinations: [{ lat: destinationLat, lng: destinationLng }],
@@ -20,7 +19,6 @@ module.exports.computeDistance = async (
     });
     return data.rows[0].elements[0].duration.text;
   } catch (err) {
-    console.log(err.message);
-    return null;
+    return { message: err.message };
   }
 };

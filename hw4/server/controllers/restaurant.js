@@ -1,15 +1,15 @@
-const { Datastore } = require("@google-cloud/datastore");
-const { v4: uuidv4 } = require("uuid");
-const { Storage } = require("@google-cloud/storage");
+const db = require("../models");
 const { computeDistance } = require("../services/computeDistance");
-
-const storage = new Storage();
-const datastore = new Datastore();
 
 module.exports.getAllRestaurants = async (req, res) => {
   try {
-    let [restaurants] = await datastore.createQuery("Restaurant").run();
+    let restaurants = await db.Restaurant.find({});
+
     for (let r of restaurants) {
+      console.log(
+        await computeDistance(r.lat, r.lng, req.query.lat, req.query.lng)
+      );
+
       r.distance = await computeDistance(
         r.lat,
         r.lng,
@@ -26,14 +26,8 @@ module.exports.getAllRestaurants = async (req, res) => {
 
 module.exports.createRestaurant = async (req, res) => {
   try {
-    const restaurantKey = datastore.key("Restaurant");
-    const restaurantQuery = {
-      key: restaurantKey,
-      data: {
-        ...req.body,
-      },
-    };
-    const restaurant = await datastore.save(restaurantQuery);
+    console.log(req.body);
+    const restaurant = await db.Restaurant.create({ ...req.body });
     return res.status(200).json({ restaurant });
   } catch (err) {
     console.log("Error creating restaurant > ", err.message);
@@ -44,10 +38,10 @@ module.exports.createRestaurant = async (req, res) => {
 module.exports.getRestaurantById = async (req, res) => {
   try {
     const restaurantName = req.params.restaurantName;
-    const [[restaurant]] = await datastore
-      .createQuery("Restaurant")
-      .filter("name", "=", restaurantName)
-      .run();
+    const restaurant = await db.Restaurant.findOne({
+      restaurantName,
+    });
+
     if (!restaurant) {
       return res.status(404).json({ message: "not found" });
     }
@@ -69,28 +63,10 @@ module.exports.updateRestaurantByName = async (req, res) => {
   try {
     const restaurantName = req.params.restaurantName;
 
-    const updateRestaurant = await datastore
-      .createQuery("Restaurant")
-      .filter("name", "=", restaurantName)
-      .run()
-      .then((results) => {
-        const restaurants = results[0];
-        const restaurantKey = restaurants[0][datastore.KEY];
-        return restaurantKey;
-      })
-      .then((restaurantKey) => {
-        console.log(restaurantKey);
-        return datastore.upsert({
-          key: restaurantKey,
-          data: {
-            ...req.body,
-          },
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({ message: err.message });
-        return null;
-      });
+    const updateRestaurant = db.Restaurant.updateOne(
+      { restaurantName },
+      { ...req.body }
+    );
     if (updateRestaurant) {
       return res.status(200).json({ updateRestaurant });
     }
@@ -103,23 +79,7 @@ module.exports.removeRestaurantByName = async (req, res) => {
   try {
     const restaurantName = req.params.restaurantName;
 
-    const deleteRestaurant = await datastore
-      .createQuery("Restaurant")
-      .filter("name", "=", restaurantName)
-      .run()
-      .then((results) => {
-        const restaurants = results[0];
-        const restaurantKey = restaurants[0][datastore.KEY];
-        return restaurantKey;
-      })
-      .then((restaurantKey) => {
-        console.log(restaurantKey);
-        return datastore.delete(restaurantKey);
-      })
-      .catch((err) => {
-        res.status(500).json({ message: err.message });
-        return null;
-      });
+    const deleteRestaurant = db.Restaurant.deleteOne({ restaurantName });
     if (deleteRestaurant) {
       return res.status(200).json({ deleteRestaurant });
     }

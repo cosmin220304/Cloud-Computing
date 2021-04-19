@@ -41,6 +41,7 @@
     "mime-db": "^1.46.0",
     "mime-types": "^2.1.29",
     "minimist": "^1.2.5",
+    "mongoose": "^5.12.4",
     "ms": "^2.0.0",
     "negotiator": "^0.6.2",
     "nodemailer": "^6.5.0",

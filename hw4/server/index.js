@@ -1,12 +1,16 @@
 const express = require("express");
 const router = require("./routes");
+const loadMongoose = require("./loaders/loadMongoose");
+const bodyParser = require("body-parser");
 
-// Create an Express object and routes (in order)
-const app = express();
-app.use("/api", router);
-app.use("/api", (req, res) => {
-  res.status(404).json({ message: "not found" });
+loadMongoose().then((res) => {
+  const app = express();
+  app.use(bodyParser.json());
+  app.use("/api", router);
+  app.use("/api", (req, res) => {
+    res.status(404).json({ message: "not found" });
+  });
+  app.listen(8080, () => {
+    console.log("listening on 8080");
+  });
 });
-
-// Set our GCF handler to our Express app.
-module.exports.app = app;
