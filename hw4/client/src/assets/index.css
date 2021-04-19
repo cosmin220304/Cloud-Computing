@@ -3,7 +3,8 @@ body {
   margin: 0;
 }
 
-.list-element, .list-element-selected {
+.list-element,
+.list-element-selected {
   min-width: 6rem;
   background: rgba(33, 33, 33, 0.08);
   border-radius: 40%;

@@ -16,32 +16,40 @@ const RestaurantReservations = (props: RestaurantReservationsProps) => {
   const [reservations, setReservations] = useState<Array<Reservation>>([]);
 
   useEffect(() => {
-    fetch(
-      `https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server/api/reservation`,
+    // fetch(
+    //   `https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server/api/reservation`,
+    //   {
+    //     mode: "no-cors",
+    //   }
+    // )
+    //   .then((res) => res.json())
+    //   .then((reservations: Array<Reservation>) => {
+    //     console.log(reservations);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //     return null;
+    //   });
+
+    setReservations([
       {
-        mode: "no-cors",
-      }
-    )
-      .then((res) => res.json())
-      .then((reservations: Array<Reservation>) => {
-        console.log(reservations);
-      })
-      .catch((err) => {
-        console.error(err);
-        return null;
-      });
+        email: "a",
+        seatCount: 1,
+        reservationDate: new Date(),
+      },
+    ]);
   }, []);
   return (
     <Grid container>
       <List>
-        {reservations.map((val: Reservation) => (
-          <ListItem>
+        {reservations.map((val: Reservation, id: number) => (
+          <ListItem key={id}>
             <Paper>
               <Grid container>
                 <Grid item>
                   <Typography>email: {val.email}</Typography>
-                  <Typography>date: {val.reservationDate}</Typography>
-                  <Typography>time: {val.reservationDate}</Typography>
+                  <Typography>date: {val.reservationDate.getDate()}</Typography>
+                  <Typography>time: {val.reservationDate.getTime()}</Typography>
                   <Typography>number of seats:{val.seatCount}</Typography>
                 </Grid>
                 <Grid item>

@@ -1,3 +1,6 @@
+$small: 300px;
+$medium: 900px;
+
 body {
   background-color: #f6f6f6;
   margin: 0;
@@ -26,4 +29,28 @@ body {
 .logo {
   width: 200px;
   height: 200px;
+}
+
+.home-page {
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+
+  &_search {
+    width: 80%;
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 1rem 1rem;
+    padding: 0 1rem;
+    gap: 1rem;
+
+    @media screen and (min-width: $medium) {
+      height: 3rem;
+    }
+  }
+
+  @media screen and (min-width: $medium) {
+    width: 50%;
+    margin: auto;
+  }
 }
