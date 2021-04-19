@@ -25,6 +25,9 @@ jobs:
         npm run build --if-present
         npm run test --if-present
       working-directory: ./hw4/server
+      env:
+        MAX_DISTANCE_API_KEY: ${{ secrets.MAX_DISTANCE_API_KEY }}
+        MONGO_URI: ${{ secrets.MONGO_URI }}
          
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
