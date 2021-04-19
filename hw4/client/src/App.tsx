@@ -43,11 +43,7 @@ function App() {
               path="/restaurantReservation"
               component={RestaurantReservations}
             />
-            <PrivateRoute
-              exact
-              path="/restaurant"
-              component={RestaurantHome}
-            />
+            <PrivateRoute exact path="/restaurant" component={RestaurantHome} />
           </Route>
         </Switch>
       </Router>
