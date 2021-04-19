@@ -1,6 +1,6 @@
 import React from "react";
 import Restaurant from "../../models/Restaurant";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard from "../../components/RestaurantCard";
 import { v4 as uuidv4 } from 'uuid';
 
 interface IProps {
@@ -9,7 +9,7 @@ interface IProps {
 
 export default function Home({ restaurants }: IProps) {
   return (
-    <div>
+    <div className="center-children">
       {restaurants.map((restaurant: Restaurant) => (
         <RestaurantCard
           key={uuidv4()}

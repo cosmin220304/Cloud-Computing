@@ -50,7 +50,70 @@ body {
   }
 
   @media screen and (min-width: $medium) {
-    width: 50%;
+    width: 48rem;
     margin: auto;
   }
+}
+
+.restaurant-card {
+  margin: 1rem;
+  position: relative;
+
+  &__logo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 5rem;
+    margin-top: 2.25rem;
+  }
+
+  &__footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1rem;
+  }
+
+  @media screen and (min-width: $medium) {
+    width: 40rem;
+  }
+}
+
+.restaurant-page {
+  &__top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 5rem;
+    margin-top: 2.25rem;
+  }
+
+  &__description {
+    position: relative;
+    padding: 1rem;
+    width: 17rem;
+    top: 0.5rem;
+    left: -7rem;
+  }
+
+  &__how-many-people {
+    margin-top: 11rem;
+    width: 20rem; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+  }
+
+  &__when {
+    margin-top: 1rem;
+    width: 20rem; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+  } 
 }

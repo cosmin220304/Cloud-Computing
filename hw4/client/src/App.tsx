@@ -5,10 +5,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import PrivateRoute from "./utils/PrivateRoute";
 import Authentication from "./screens/Authentication";
-import Home from "./screens/Home";
-import RestaurantReservations from "./bundles/reservations/restaurantReservations";
-import UserReservations from "./bundles/reservations/userReservations";
 import Topnav from "./components/Topnav";
+import Home from "./screens/Home";
+import RestaurantReservations from "./screens/RestaurantReservations";
+import UserReservations from "./screens/UserReservations";
+import RestaurantHome from "./screens/RestaurantHome";
 
 const theme = createMuiTheme({
   palette: {
@@ -41,6 +42,11 @@ function App() {
               exact
               path="/restaurantReservation"
               component={RestaurantReservations}
+            />
+            <PrivateRoute
+              exact
+              path="/restaurant"
+              component={RestaurantHome}
             />
           </Route>
         </Switch>
