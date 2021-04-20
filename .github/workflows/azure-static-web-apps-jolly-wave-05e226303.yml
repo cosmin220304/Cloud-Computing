@@ -31,6 +31,14 @@ jobs:
           api_location: "./hw4/functions" # Api source code path - optional
           output_location: "./hw4/client/build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+        env:
+          REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}
+          REACT_APP_AUTHDOMAIN: ${{ secrets.REACT_APP_AUTHDOMAIN }}
+          REACT_APP_PID: ${{ secrets.REACT_APP_PID }}
+          REACT_APP_SB: ${{ secrets.REACT_APP_SB }}
+          REACT_APP_SID: ${{ secrets.REACT_APP_SID }}
+          REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
+          REACT_APP_MID: ${{ secrets.REACT_APP_MID }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
