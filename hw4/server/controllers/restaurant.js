@@ -38,6 +38,7 @@ module.exports.createRestaurant = async (req, res) => {
 module.exports.getRestaurantById = async (req, res) => {
   try {
     const restaurantName = req.params.restaurantName;
+    console.log(restaurantName)
     const restaurant = await db.Restaurant.findOne({
       restaurantName,
     });

@@ -13,28 +13,20 @@ const RestaurantReservations = (props: IProps) => {
   const [reservations, setReservations] = useState<Array<Reservation>>([]);
 
   useEffect(() => {
-    // fetch(
-    //   `https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server/api/reservation`,
-    //   {
-    //     mode: "no-cors",
-    //   }
-    // )
-    //   .then((res) => res.json())
-    //   .then((reservations: Array<Reservation>) => {
-    //     console.log(reservations);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //     return null;
-    //   });
-
-    setReservations([
+    fetch(
+      `/reservation`,
       {
-        phone: "0756673227",
-        seatCount: 1,
-        reservationDate: new Date(),
-      },
-    ]);
+        mode: "no-cors",
+      }
+    )
+      .then((res) => res.json())
+      .then((reservations: Array<Reservation>) => {
+        console.log(reservations);
+      })
+      .catch((err) => {
+        console.error(err);
+        return null;
+      });
   }, []);
   return (
     <div className="m-2 center-children">

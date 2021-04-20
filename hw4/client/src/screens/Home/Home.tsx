@@ -18,29 +18,30 @@ export default function Home() {
   }, [restaurants]);
 
   useEffect(() => {
-    // navigator.geolocation.getCurrentPosition(function (position) {
-    //   fetch(
-    //     'https://us-central1-hw3-cloud-computing-308510.cloudfunctions.net/h3-server/api/restaurant?' +
-    //       new URLSearchParams({
-    //         lat: String(position.coords.latitude),
-    //         lng: String(position.coords.longitude),
-    //       }),
-    //     {
-    //       mode: 'no-cors',
-    //     }
-    //   )
-    //     .then((res) => {
-    //       return res.json()
-    //     })
-    //     .then((restaurants: Array<Restaurant>) => {
-    //       console.log(restaurants)
-    //       setRestaurants(restaurants)
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //     })
-    // })
-    setRestaurants(restaurants_data);
+    navigator.geolocation.getCurrentPosition(function (position) {
+      fetch(
+        '/restaurant?' +
+          new URLSearchParams({
+            lat: String(0),//position.coords.latitude),
+            lng: String(0)//position.coords.longitude),
+          }),
+        {
+          mode: 'no-cors',
+        }
+      )
+        .then((res) => {
+          console.log(res)
+          return res.json()
+        })
+        .then((restaurants) => {
+          console.log(restaurants)
+          setRestaurants(restaurants)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    })
+    // setRestaurants(restaurants_data);
   }, []);
 
   const updateSearchText = (evt: any) => {
