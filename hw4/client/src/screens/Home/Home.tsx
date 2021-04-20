@@ -20,8 +20,6 @@ export default function Home() {
     navigator.geolocation.getCurrentPosition(({coords}) => {
       axios.get(`/api/restaurant?lat=${coords.latitude}&lng=${coords.longitude}`)
         .then((res) => {
-          console.log(res.data.data)
-          console.log(typeof(res.data.dat))
           const newRestaurants = res.data.data.filter(r => r.name)
           setRestaurants(newRestaurants)
         })

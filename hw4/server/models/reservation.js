@@ -6,4 +6,4 @@ const reservationSchema = new Schema({
   userEmail: SchemaTypes.String,
 });
 
-module.exports = model("reservation", reservationSchema, "reservations");
+module.exports = model("reservation", reservationSchema, "reservation");

@@ -4,7 +4,7 @@ const validator = require("express-joi-validation").createValidator({});
 const postReservationSchema = Joi.object({
   reservationDate: Joi.date().required(),
   seatCount: Joi.number().required(),
-  userEmail: Joi.string().email().required(),
+  userPhone: Joi.string().required(),
 });
 
 module.exports = validator.body(postReservationSchema);

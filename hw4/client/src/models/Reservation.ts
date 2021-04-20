@@ -1,5 +1,6 @@
 interface Reservation {
-  phone: string;
+  userPhone: string;
+  restaurantName: string;
   seatCount: number;
   reservationDate: Date;
 }

@@ -7,13 +7,9 @@ module.exports.getReservations = async (req, res) => {
   try {
     const restaurantName = req.query.restaurantName;
     const reservationDate = req.query.reservationDate;
-    const userEmail = req.query.userEmail;
+    const userPhone = req.query.userPhone;
 
-    const reservations = await db.Reservation.find({
-      userEmail,
-      restaurantName,
-      reservationDate,
-    });
+    const reservations = await db.Reservation.find({});
 
     return res.status(200).json(reservations);
   } catch (err) {
