@@ -22,8 +22,8 @@ export default function Home() {
       fetch(
         '/restaurant?' +
           new URLSearchParams({
-            lat: String(0),//position.coords.latitude),
-            lng: String(0)//position.coords.longitude),
+            lat: String(position.coords.latitude),
+            lng: String(position.coords.longitude),
           }),
         {
           mode: 'no-cors',
@@ -41,7 +41,6 @@ export default function Home() {
           console.log(err)
         })
     })
-    // setRestaurants(restaurants_data);
   }, []);
 
   const updateSearchText = (evt: any) => {
