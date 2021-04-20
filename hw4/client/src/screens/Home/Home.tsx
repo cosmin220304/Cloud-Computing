@@ -18,9 +18,11 @@ export default function Home() {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({coords}) => {
-      axios.get(`/restaurant?lat=${coords.latitude}&lng=${coords.longitude}`)
+      axios.get(`/api/restaurant?lat=${coords.latitude}&lng=${coords.longitude}`)
         .then((res) => {
-          const newRestaurants = res.data.filter(r => r.name)
+          console.log(res.data.data)
+          console.log(typeof(res.data.dat))
+          const newRestaurants = res.data.data.filter(r => r.name)
           setRestaurants(newRestaurants)
         })
         .catch((err) => {
