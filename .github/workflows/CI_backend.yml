@@ -28,6 +28,9 @@ jobs:
       env:
         MAX_DISTANCE_API_KEY: ${{ secrets.MAX_DISTANCE_API_KEY }}
         MONGO_URI: ${{ secrets.MONGO_URI }}
+        AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+        PORT: ${{ secrets.PORT }}
+        SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
          
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
