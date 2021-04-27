@@ -22,17 +22,19 @@ jobs:
         # Build and test the project, then
         # deploy to Azure Web App.
         npm install
-        npm run build --if-present
-        npm run test --if-present
+        CI='' npm run build --if-present 
       working-directory: ./hw4/server
       env:
         MAX_DISTANCE_API_KEY: ${{ secrets.MAX_DISTANCE_API_KEY }}
         MONGO_URI: ${{ secrets.MONGO_URI }}
+        AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+        PORT: ${{ secrets.PORT }}
+        SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
          
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'seatr-the-best-api'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_SERVER }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_SERVER_API }}
         package: ./hw4/server
