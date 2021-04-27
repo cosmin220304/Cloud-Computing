@@ -2,15 +2,15 @@ const express = require("express");
 const router = require("./routes");
 const loadMongoose = require("./loaders/loadMongoose");
 const bodyParser = require("body-parser");
-const app = express();
 
 loadMongoose().then((res) => {
   const app = express();
+
   app.use(bodyParser.json());
 
-  app.get('/status', (req, res) => {
-    res.json({message: "ok"})
-  })
+  app.get("/status", (req, res) => {
+    res.json({ message: "ok" });
+  });
 
   app.use("/api", router);
   app.use("/api", (req, res) => {

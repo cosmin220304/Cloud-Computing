@@ -3,7 +3,7 @@ import { Paper, InputBase } from "@material-ui/core";
 import { MenuOutlined, SearchOutlined } from "@material-ui/icons";
 import Restaurant from "../../models/Restaurant";
 import RestaurantCardList from "./RestaurantCardList";
-import axios from 'axios'; 
+import axios from "axios";
 
 export default function Home() {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
@@ -17,16 +17,18 @@ export default function Home() {
   }, [restaurants]);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({coords}) => {
-      axios.get(`/api/restaurant?lat=${coords.latitude}&lng=${coords.longitude}`)
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      axios
+        .get(`/api/restaurant?lat=${coords.latitude}&lng=${coords.longitude}`)
         .then((res) => {
-          const newRestaurants = res.data.data.filter(r => r.name)
-          setRestaurants(newRestaurants)
+          console.log(res);
+          const newRestaurants = res.data.filter((r) => r.name);
+          setRestaurants(newRestaurants);
         })
         .catch((err) => {
-          console.log(err)
-        })
-    })
+          console.log(err);
+        });
+    });
   }, []);
 
   const updateSearchText = (evt: any) => {
@@ -35,8 +37,9 @@ export default function Home() {
 
   const makeSearch = () => {
     setFilteredRestaurants(
-      restaurants.filter((restaurant: Restaurant) =>
-        restaurant.name && restaurant.name.startsWith(searchText)
+      restaurants.filter(
+        (restaurant: Restaurant) =>
+          restaurant.name && restaurant.name.startsWith(searchText)
       )
     );
   };

@@ -1,17 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Paper, Typography, Button } from "@material-ui/core";
+import { Paper, Typography, Button, Card } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveIcon from "@material-ui/icons/Remove";
 import TextField from "@material-ui/core/TextField";
 import AddReviewForm from "../../components/forms/addReviewForm";
+import ReviewsDialog from "../../components/reviews";
+import axios from "axios";
 
 export default function RestaurantHome() {
   let location = useLocation();
   const [info, setInfo] = useState<any>();
   const [counter, setCounter] = useState<number>(1);
   const [open, setOpen] = useState<boolean>(false);
+  const [reviews, setReviews] = useState<Array<any>>([]);
 
+  useEffect(() => {
+    if (info?.name)
+      axios
+        .get("/api/review", {
+          params: {
+            restaurantName: info.name,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          const data = res.data;
+          setReviews(data.reviews);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, [info]);
   const handleMakeReservation = () => {};
 
   const openReviewDialog = () => {
@@ -34,7 +54,6 @@ export default function RestaurantHome() {
   const decrease = () => {
     setCounter((prev) => --prev);
   };
-
   if (!info) return null;
 
   return (
@@ -102,8 +121,21 @@ export default function RestaurantHome() {
             <Typography>add review</Typography>
           </Button>
         </div>
+        <div className="m-t-2">
+          {reviews.map((val) => (
+            <Card>
+              <div>{val.description}</div>
+              <div>score:{val.rating}</div>
+              <img src={val.imageHref} />
+            </Card>
+          ))}
+        </div>
       </div>
-      <AddReviewForm open={open} onClose={closeReviewDialog} />
+      <AddReviewForm
+        restaurantName={info.name}
+        open={open}
+        onClose={closeReviewDialog}
+      />
     </>
   );
 }

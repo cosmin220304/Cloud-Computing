@@ -3,21 +3,22 @@ const { computeDistance } = require("../services/computeDistance");
 
 module.exports.getAllRestaurants = async (req, res) => {
   try {
-    let restaurants = await db.Restaurant.find({});
-
-    for (let r of restaurants) {
-      console.log(
-        await computeDistance(r.lat, r.lng, req.query.lat, req.query.lng)
-      );
-
-      r.distance = await computeDistance(
-        r.lat,
-        r.lng,
+    const restaurants = await db.Restaurant.find({});
+    console.log("getting restaurants");
+    console.log(restaurants);
+    const restaurantsPromises = restaurants.map(async (restaurant) => {
+      const distance = await computeDistance(
+        restaurant.lat,
+        restaurant.lng,
         req.query.lat,
         req.query.lng
       );
-    }
-    return res.status(200).json(restaurants);
+      return { ...restaurant._doc, distance };
+    });
+    return Promise.all(restaurantsPromises).then((_restaurants) => {
+      console.log(_restaurants);
+      return res.status(200).json(_restaurants);
+    });
   } catch (err) {
     console.log("Error geting all restaurants > ", err.message);
     return res.status(500).json({ error: err.message });
@@ -38,7 +39,7 @@ module.exports.createRestaurant = async (req, res) => {
 module.exports.getRestaurantById = async (req, res) => {
   try {
     const restaurantName = req.params.restaurantName;
-    console.log(restaurantName)
+    console.log(restaurantName);
     const restaurant = await db.Restaurant.findOne({
       restaurantName,
     });
