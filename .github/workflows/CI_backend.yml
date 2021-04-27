@@ -37,5 +37,5 @@ jobs:
       with:
         app-name: 'seatr-the-best-api'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_SERVER }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_SERVER_API }}
         package: ./hw4/server
