@@ -18,7 +18,7 @@ export default function RestaurantHome() {
   useEffect(() => {
     if (info?.name)
       axios
-        .get("/api/review", {
+        .get("https://seatr-backend.azurewebsites.net/api/review", {
           params: {
             restaurantName: info.name,
           },

@@ -38,11 +38,15 @@ export default function AddReviewForm(props: IAddReviewForm) {
             formData.append("restaurantName", props.restaurantName);
           console.log(formData.getAll("file"));
           axios
-            .post("/api/review", formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            })
+            .post(
+              "https://seatr-backend.azurewebsites.net/api/review",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            )
             .then((res) => {
               console.log(res.data);
             })

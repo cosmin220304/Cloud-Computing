@@ -13,7 +13,7 @@ const ReviewsDialog = ({
 
   useEffect(() => {
     axios
-      .get("/api/review", {
+      .get("https://seatr-backend.azurewebsites.net/api/review", {
         params: {
           restaurantName,
         },
