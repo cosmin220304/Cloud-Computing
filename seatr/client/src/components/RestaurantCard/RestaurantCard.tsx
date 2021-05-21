@@ -1,6 +1,6 @@
 import React, { Paper } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import Menu from "../../models/Menu";
+import Menu from "../../models/MenuItem";
 import Logo from "./Logo";
 import Background from "./Background";
 import Description from "./Description";
@@ -27,7 +27,6 @@ export default function RestaurantCard({
   menu,
   distance,
 }: IProps) {
-
   let history = useHistory();
 
   const goToDetails = () => {

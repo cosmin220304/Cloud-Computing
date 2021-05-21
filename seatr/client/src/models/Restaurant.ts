@@ -1,7 +1,7 @@
-import Menu from './Menu';
+import MenuItem from "./MenuItem";
 
 interface Restaurant {
-  menu: Array<Menu>;
+  menu: Array<MenuItem>;
   backgroundHref: string;
   description: string;
   logoHref: string;

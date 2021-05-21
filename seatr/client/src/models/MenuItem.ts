@@ -1,6 +1,5 @@
-export default  interface Menu {
+export default interface MenuItem {
   name: string;
   price: number;
   quantity: number;
 }
-
