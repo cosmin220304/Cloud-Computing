@@ -17,6 +17,9 @@ const postRestaurantSchema = Joi.object({
   ),
   lat: Joi.number().required(),
   lng: Joi.number().required(),
+  tags: Joi.array().items(Joi.string().allow(null).allow('')).optional(),
+  seatCount: Joi.number(),
+  currentSeats: Joi.number(),
 });
 
 module.exports = validator.body(postRestaurantSchema);
