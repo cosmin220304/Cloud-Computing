@@ -19,9 +19,7 @@ export default function Home() {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       axios
-        .get(
-          `https://seatr-backend.azurewebsites.net/api/restaurant?lat=${coords.latitude}&lng=${coords.longitude}`
-        )
+        .get(`/api/restaurant?lat=${coords.latitude}&lng=${coords.longitude}`)
         .then((res) => {
           console.log(res);
           const newRestaurants = res.data.filter((r) => r.name);

@@ -15,7 +15,7 @@ const RestaurantReservations = (props: IProps) => {
 
   useEffect(() => {
     axios
-      .get(`https://seatr-backend.azurewebsites.net/api/reservations`)
+      .get(`/api/reservations`)
       .then((res) => {
         setReservations(res.data.data);
       })
