@@ -1,0 +1,119 @@
+$small: 300px;
+$medium: 900px;
+
+body {
+  background-color: #f6f6f6;
+  margin: 0;
+}
+
+.list-element {
+  min-width: 6rem;
+  min-height: 3rem;
+  background: rgba(33, 33, 33, 0.08);
+  border-radius: 150px;
+  cursor: pointer;
+  user-select: none;
+  display: grid;
+  place-items: center;
+}
+
+.list-element:active {
+  background: rgba(202, 13, 13, 0.18);
+}
+
+.list-element-selected {
+  @extend .list-element;
+  background: rgba(33, 33, 33, 0.18);
+}
+
+.logo {
+  width: 200px;
+  height: 200px;
+}
+
+.home-page {
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+
+  &_search {
+    width: 80%;
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 1rem 1rem;
+    padding: 0 1rem;
+    gap: 1rem;
+
+    @media screen and (min-width: $medium) {
+      height: 3rem;
+    }
+  }
+
+  @media screen and (min-width: $medium) {
+    width: 48rem;
+    margin: auto;
+  }
+}
+
+.restaurant-card {
+  margin: 1rem;
+  position: relative;
+
+  &__logo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 5rem;
+    margin-top: 2.25rem;
+  }
+
+  &__footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1rem;
+  }
+
+  @media screen and (min-width: $medium) {
+    width: 40rem;
+  }
+}
+
+.restaurant-page {
+  &__top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 5rem;
+    margin-top: 2.25rem;
+  }
+
+  &__description {
+    position: relative;
+    padding: 1rem;
+    width: 17rem;
+    top: 0.5rem;
+    left: -7rem;
+  }
+
+  &__how-many-people {
+    margin-top: 11rem;
+    width: 20rem; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+  }
+
+  &__when {
+    margin-top: 1rem;
+    width: 20rem; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+  } 
+}

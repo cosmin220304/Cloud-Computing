@@ -1,0 +1,22 @@
+body {
+  background-color: #f6f6f6;
+  margin: 0;
+}
+
+.list-element,
+.list-element-selected {
+  min-width: 6rem;
+  background: rgba(33, 33, 33, 0.08);
+  border-radius: 40%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.list-element-selected {
+  background: rgba(33, 33, 33, 0.18);
+}
+
+.logo {
+  width: 200px;
+  height: 200px;
+}
