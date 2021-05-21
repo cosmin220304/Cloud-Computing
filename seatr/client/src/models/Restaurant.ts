@@ -7,9 +7,9 @@ interface Restaurant {
   logoHref: string;
   name: string;
   distance?: string;
-  // tags?: Array<string>,
-  // maxSeatCount: number,
-  // currentSeats: number,
+  tags?: Array<string>,
+  maxSeatCount: number,
+  currentSeats: number,
 }
 
 export default Restaurant;
