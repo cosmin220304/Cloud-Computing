@@ -19,7 +19,7 @@ const postRestaurantSchema = Joi.object({
   lng: Joi.number().required(),
   tags: Joi.array().items(Joi.string().allow(null).allow('')).optional(),
   seatCount: Joi.number(),
-  currentSeats: Join.number(),
+  currentSeats: Joi.number(),
 });
 
 module.exports = validator.body(postRestaurantSchema);
