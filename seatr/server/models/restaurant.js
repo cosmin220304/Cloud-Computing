@@ -2,6 +2,7 @@ const { model, Schema, SchemaTypes } = require("mongoose");
 
 const restaurantSchema = new Schema({
   name: SchemaTypes.String,
+  ownerId: SchemaTypes.String,
   description: SchemaTypes.String,
   logoHref: SchemaTypes.String,
   backgroundHref: SchemaTypes.String,

@@ -3,15 +3,19 @@ const { computeDistance } = require("../services/computeDistance");
 
 module.exports.getAllRestaurants = async (req, res) => {
   try {
-    const restaurants = await db.Restaurant.find({});
+    const { lat, lng } = req.query;
+    delete req.query.lat;
+    delete req.query.lng;
+
+    const restaurants = await db.Restaurant.find({ ...req.query });
     console.log("getting restaurants");
     console.log(restaurants);
     const restaurantsPromises = restaurants.map(async (restaurant) => {
       const distance = await computeDistance(
         restaurant.lat,
         restaurant.lng,
-        req.query.lat,
-        req.query.lng
+        lat,
+        lng
       );
       return { ...restaurant._doc, distance };
     });

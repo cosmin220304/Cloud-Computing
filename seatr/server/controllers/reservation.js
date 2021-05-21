@@ -1,15 +1,11 @@
 const { v4: uuidv4 } = require("uuid");
 const { sendEmail } = require("../services/emailSender");
 const db = require("../models");
-const { ObjectId } = require("mongoose");
+const { Types } = require("mongoose");
 
 module.exports.getReservations = async (req, res) => {
   try {
-    const restaurantName = req.query.restaurantName;
-    const reservationDate = req.query.reservationDate;
-    const userPhone = req.query.userPhone;
-
-    const reservations = await db.Reservation.find({});
+    const reservations = await db.Reservation.find({ ...req.query });
 
     return res.status(200).json(reservations);
   } catch (err) {
@@ -21,7 +17,10 @@ module.exports.changeReservationStatus = async (req, res) => {
   try {
     const status = req.body.status;
     const reservationId = req.params.reservationId;
-    let reservation = await db.Reservation.findById(ObjectId(reservationId));
+    console.log({ status, reservationId });
+    let reservation = await db.Reservation.findById(
+      Types.ObjectId(reservationId)
+    );
     if (reservation === null)
       return res.status(404).json({ message: "not found" });
 
