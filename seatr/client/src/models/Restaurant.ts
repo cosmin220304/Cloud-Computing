@@ -9,7 +9,9 @@ interface Restaurant {
   distance?: string;
   tags: Array<string>;
   maxSeatCount: number;
-  currentSeats: number;
+  currentAvailableSeats: number;
+  rating: number;
+  priceRange: number;
 }
 
 export default Restaurant;

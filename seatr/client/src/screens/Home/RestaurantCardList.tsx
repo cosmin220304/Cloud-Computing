@@ -19,8 +19,8 @@ export default function Home({ restaurants }: IProps) {
           logoHref={restaurant.logoHref}
           menu={restaurant.menu}
           distance={restaurant.distance}
-          priceRange={2}
-          starRating={4}
+          priceRange={restaurant.priceRange}
+          rating={restaurant.rating}
         />
       ))}
     </div>

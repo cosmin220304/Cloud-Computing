@@ -4,8 +4,10 @@ import { MenuOutlined, SearchOutlined } from "@material-ui/icons";
 import Restaurant from "../../models/Restaurant";
 import RestaurantCardList from "./RestaurantCardList";
 import axios from "axios";
-import { Switch } from 'pretty-checkbox-react';
-import '@djthoms/pretty-checkbox';
+import { Switch } from "pretty-checkbox-react";
+import "@djthoms/pretty-checkbox";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 export default function Home() {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
@@ -13,19 +15,24 @@ export default function Home() {
     Array<Restaurant>
   >([]);
   const [searchText, setSearchText] = useState<string>("");
+  const [enableFilter, setenableFilter] = useState<Boolean>(false);
+  const [covidFilter, setCovidFilter] = useState<Boolean>(false);
 
   useEffect(() => {
     setFilteredRestaurants(restaurants);
   }, [restaurants]);
 
   useEffect(() => {
+    makeSearch();
+  }, [covidFilter]);
+
+  useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       axios
         .get(`/api/restaurant?lat=${coords.latitude}&lng=${coords.longitude}`, { withCredentials: true })
-        .then((res) => {
-          console.log(res);
-          const newRestaurants = res.data.filter((r) => r.name);
-          setRestaurants(newRestaurants);
+        .then(({data}) => {
+          console.log(data) 
+          setRestaurants(data);
         })
         .catch((err) => {
           console.log(err);
@@ -40,14 +47,40 @@ export default function Home() {
   };
 
   const makeSearch = () => {
-    setFilteredRestaurants(
-      restaurants.filter(
-        (restaurant: Restaurant) =>
-          restaurant.name.includes(searchText) ||
-          restaurant.tags.some(t => t.includes(searchText))
+    let filteredRestaurant = restaurants.filter(
+      (restaurant: Restaurant) =>
+        restaurant.name.includes(searchText) ||
+        restaurant.tags.some(t => t.includes(searchText))
+    )
+    if (covidFilter) {
+      filteredRestaurant = filteredRestaurant.filter(
+        (restaurant: Restaurant) => restaurant.currentAvailableSeats > 3/10 * restaurant.maxSeatCount
       )
-    );
-  };
+    }
+    setFilteredRestaurants(filteredRestaurant);
+  }; 
+
+  const sortBy = ({ value }) => {
+    let orderedRestaurant = [...restaurants];
+    switch (value) {
+      case "distance":
+        orderedRestaurant.sort((r1, r2) => { 
+          if (!r1.distance) return -1;
+          if (!r2.distance) return -1;
+          return r1.distance > r2.distance ? 1 : -1 
+        })
+        break;
+      case "rating":
+        orderedRestaurant.sort((r1, r2) => r1.rating < r2.rating ? 1 : -1)
+        break;
+      case "price":
+        orderedRestaurant.sort((r1, r2) => r1.priceRange > r2.priceRange ? 1 : -1)
+        break;
+      default:
+        throw new Error("invalid sort by value")
+    }
+    setRestaurants(orderedRestaurant);
+  }
 
   return (
     <div className="home-page">
@@ -56,13 +89,20 @@ export default function Home() {
         <div className="w-2" onClick={makeSearch}>
           <SearchOutlined />
         </div>
-        <div className="w-2">
+        <div className="w-2" onClick={() => setenableFilter(prev => prev ? false : true)}>
           <MenuOutlined />
         </div>
       </Paper>
-      {/* <Paper className="home-page_filter">
-       <Switch> Covid </Switch>;
-      </Paper> todo fix */}
+      {enableFilter && <Paper className="home-page_filter">
+       <Dropdown 
+        options={["distance", "rating", "price"]}  
+        value={"distance"}  
+        onChange={sortBy}
+       />
+       <Switch color="success" onChange={()=>{setCovidFilter(prev => prev ? false : true)}} > 
+        Covid 
+       </Switch>
+      </Paper>}
       <RestaurantCardList restaurants={filteredRestaurants} />
     </div>
   );

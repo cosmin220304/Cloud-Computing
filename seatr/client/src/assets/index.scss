@@ -51,8 +51,11 @@ body {
 
   &_filter {
     margin-top: 1rem;
-    width: 90%;
+    padding: 1rem;
+    width: 80%;
     display: flex;
+    justify-content: space-between;
+    place-items: center;
     gap: 1rem;
   }
 
@@ -75,10 +78,21 @@ body {
     width: 5rem;
     margin-top: 2.25rem;
   }
+  
+  
+  &__footer {  
+    & > div:nth-child(1) {
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+      gap: 2rem;
+    }
 
-  &__footer {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    div:nth-child(2) {
+      display: grid; 
+      place-items: center;
+    }
+
     padding: 1rem;
   }
 

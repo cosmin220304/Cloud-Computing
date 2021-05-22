@@ -7,25 +7,25 @@ import Description from "./Description";
 import Footer from "./Footer";
 
 interface IProps {
-  priceRange: 1 | 2 | 3;
-  starRating: 1 | 2 | 3 | 4 | 5;
+  priceRange: number;
   name: string;
   description?: string | undefined;
   backgroundHref: string;
   logoHref: string;
   menu: Array<Menu>;
   distance?: string;
+  rating: number;
 }
 
 export default function RestaurantCard({
   priceRange,
-  starRating,
   name,
   description,
   logoHref,
   backgroundHref,
   menu,
   distance,
+  rating,
 }: IProps) {
   let history = useHistory();
 
@@ -35,13 +35,13 @@ export default function RestaurantCard({
       search: `?name=${name}`,
       state: {
         priceRange,
-        starRating,
         name,
         description,
         logoHref,
         backgroundHref,
         menu,
         distance,
+        rating
       },
     });
   };
@@ -60,7 +60,7 @@ export default function RestaurantCard({
         </div>
         <Footer
           priceRange={priceRange}
-          starRating={starRating}
+          starRating={rating}
           distance={distance}
         />
       </Paper>
