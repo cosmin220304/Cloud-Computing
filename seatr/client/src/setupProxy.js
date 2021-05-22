@@ -4,7 +4,7 @@ const url = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "
 const host = process.env.NODE_ENV === "development" ? "localhost:8080" : "seatr-the-best-api.azurewebsites.net";
 module.exports = function (app) {
   app.use(
-    "/api",
+    "/api/*",
     createProxyMiddleware({
       target: url,
       secure: false,
