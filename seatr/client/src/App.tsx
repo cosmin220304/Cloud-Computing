@@ -7,7 +7,6 @@ import PrivateRoute from "./utils/PrivateRoute";
 import Authentication from "./screens/Authentication";
 import Topnav from "./components/Topnav";
 import Home from "./screens/Home";
-import RestaurantReservations from "./screens/RestaurantReservations";
 import UserReservations from "./screens/UserReservations";
 import RestaurantHome from "./screens/RestaurantHome";
 import RestaurantDashboard from "./screens/RestaurantDashboard";
@@ -38,11 +37,6 @@ function App() {
               exact
               path="/userReservations"
               component={UserReservations}
-            />
-            <PrivateRoute
-              exact
-              path="/restaurantReservation"
-              component={RestaurantReservations}
             />
             <PrivateRoute exact path="/restaurant" component={RestaurantHome} />
             <PrivateRoute
