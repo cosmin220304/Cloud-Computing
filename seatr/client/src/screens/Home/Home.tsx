@@ -23,10 +23,6 @@ export default function Home() {
   }, [restaurants]);
 
   useEffect(() => {
-    makeSearch();
-  }, [covidFilter]);
-
-  useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       axios
         .get(`/api/restaurant?lat=${coords.latitude}&lng=${coords.longitude}`, { withCredentials: true })
@@ -59,6 +55,10 @@ export default function Home() {
     }
     setFilteredRestaurants(filteredRestaurant);
   }; 
+
+  useEffect(() => {
+    makeSearch();
+  }, [makeSearch, covidFilter]);
 
   const sortBy = ({ value }) => {
     let orderedRestaurant = [...restaurants];

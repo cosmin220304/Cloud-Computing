@@ -25,7 +25,7 @@ interface ItemQuantity {
 }
 export default function RestaurantHome() {
   let location = useLocation();
-  const [authContext, setAuthContext] = useContext(AuthContext);
+  const [authContext, ] = useContext(AuthContext);
   const [restaurant, setRestaurant] = useState<any>();
   const [counter, setCounter] = useState<number>(1);
   const [open, setOpen] = useState<boolean>(false);
@@ -266,7 +266,7 @@ export default function RestaurantHome() {
                   <Card>
                     <div>{val.description}</div>
                     <div>score:{val.rating}</div>
-                    <img src={val.imageHref} />
+                    <img src={val.imageHref} alt="review img" />
                   </Card>
                 </div>
               ))}

@@ -63,7 +63,7 @@ export default function Login({ setIsNewUser }: IProps) {
       firebaseui.auth.AuthUI.getInstance() ||
       new firebaseui.auth.AuthUI(firebase.auth());
     ui.start("#firebaseui-auth-container", uiConfig);
-  }, []);
+  }, [setIsNewUser, setUser]);
 
   return (
     <>
