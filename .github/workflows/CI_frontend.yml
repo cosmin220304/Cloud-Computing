@@ -1,4 +1,4 @@
-name: build and deploy front end application
+name: build and deploy front application
 
 on:
   push:
@@ -17,11 +17,10 @@ jobs:
       with:
         node-version: '14.x'
     
-    
-    - name: npm install and build
-      run: | 
+    - name: npm install, build, and test
+      run: |
         npm install
-        CI='' npm run build 
+        CI='' npm run build
       working-directory: ./seatr/client
       env:
         REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}
@@ -31,12 +30,12 @@ jobs:
         REACT_APP_SID: ${{ secrets.REACT_APP_SID }}
         REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
         REACT_APP_MID: ${{ secrets.REACT_APP_MID }}
-        HTTPS: true
+        PORT: ${{ secrets.PORT }}
          
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'seatr-the-best'
+        app-name: 'seatr-the-best-api'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ./seatr/client/build
+        package: ./seatr/client
