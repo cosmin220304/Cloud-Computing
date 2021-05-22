@@ -33,6 +33,7 @@ jobs:
           REACT_APP_SID: ${{ secrets.REACT_APP_SID }}
           REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
           REACT_APP_MID: ${{ secrets.REACT_APP_MID }}
+          HTTPS: true
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
