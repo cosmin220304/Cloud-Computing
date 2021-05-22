@@ -7,7 +7,7 @@ interface Restaurant {
   logoHref: string;
   name: string;
   distance?: string;
-  tags?: Array<string>;
+  tags: Array<string>;
   maxSeatCount: number;
   currentSeats: number;
 }

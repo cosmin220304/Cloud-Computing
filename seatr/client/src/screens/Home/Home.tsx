@@ -4,6 +4,8 @@ import { MenuOutlined, SearchOutlined } from "@material-ui/icons";
 import Restaurant from "../../models/Restaurant";
 import RestaurantCardList from "./RestaurantCardList";
 import axios from "axios";
+import { Switch } from 'pretty-checkbox-react';
+import '@djthoms/pretty-checkbox';
 
 export default function Home() {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
@@ -32,14 +34,17 @@ export default function Home() {
   }, []);
 
   const updateSearchText = (evt: any) => {
-    setSearchText(evt.target.value);
+    const text = evt.target.value;
+    setSearchText(text);
+    makeSearch();
   };
 
   const makeSearch = () => {
     setFilteredRestaurants(
       restaurants.filter(
         (restaurant: Restaurant) =>
-          restaurant.name && restaurant.name.startsWith(searchText)
+          restaurant.name.includes(searchText) ||
+          restaurant.tags.some(t => t.includes(searchText))
       )
     );
   };
@@ -55,6 +60,9 @@ export default function Home() {
           <MenuOutlined />
         </div>
       </Paper>
+      {/* <Paper className="home-page_filter">
+       <Switch> Covid </Switch>;
+      </Paper> todo fix */}
       <RestaurantCardList restaurants={filteredRestaurants} />
     </div>
   );

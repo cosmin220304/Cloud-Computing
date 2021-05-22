@@ -28,15 +28,12 @@ export default function AddReviewForm(props: IAddReviewForm) {
       const formData = new FormData();
       const file: any = formik.values.file;
       fileToBlob(file)
-        .then((blob) => {
-          const rawText = file;
-          console.log(rawText);
+        .then((blob) => { 
           formData.append("description", formik.values.description);
           formData.append("rating", String(formik.values.rating));
           formData.append("streamfile", blob);
           if (props.restaurantName)
             formData.append("restaurantName", props.restaurantName);
-          console.log(formData.getAll("file"));
           axios
             .post("/api/review", formData, {
               headers: {
@@ -51,7 +48,15 @@ export default function AddReviewForm(props: IAddReviewForm) {
             });
         })
         .catch((err) => {
-          console.log(err);
+          axios
+            .post("/api/review", {
+              description: formik.values.description,
+              stars: formik.values.rating,
+              restaurantName: props.restaurantName
+            })
+            .catch((err) => {
+              console.log(err.message);
+            });
         });
     },
     initialValues: { description: "", rating: 0, file: null },
