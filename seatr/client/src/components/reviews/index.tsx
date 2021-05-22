@@ -17,6 +17,7 @@ const ReviewsDialog = ({
         params: {
           restaurantName,
         },
+        withCredentials: true
       })
       .then((res) => {
         console.log(res);

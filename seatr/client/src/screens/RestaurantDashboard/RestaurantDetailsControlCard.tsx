@@ -52,7 +52,7 @@ const RestaurantDetailsControlCard = (props: { restaurant: Restaurant }) => {
       .put(`/api/restaurant/${restaurant.name}`, {
         ...cleanRestaurant,
         ...formik.values,
-      })
+      }, { withCredentials: true })
       .then((res) => {
         console.log(res);
       })

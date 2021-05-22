@@ -9,7 +9,7 @@ const UserReservations = () => {
 
   useEffect(() => {
     axios
-      .get("/api/reservation")
+      .get("/api/reservation", { withCredentials: true })
       .then((res) => {
         console.log(res.data);
       })

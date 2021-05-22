@@ -39,6 +39,7 @@ export default function AddReviewForm(props: IAddReviewForm) {
               headers: {
                 "Content-Type": "multipart/form-data",
               },
+              withCredentials: true
             })
             .then((res) => {
               console.log(res.data);
@@ -53,7 +54,7 @@ export default function AddReviewForm(props: IAddReviewForm) {
               description: formik.values.description,
               stars: formik.values.rating,
               restaurantName: props.restaurantName
-            })
+            }, { withCredentials: true })
             .catch((err) => {
               console.log(err.message);
             });

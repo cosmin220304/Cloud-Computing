@@ -42,6 +42,7 @@ export default function RestaurantHome() {
           params: {
             restaurantName: restaurant.name,
           },
+          withCredentials: true 
         })
         .then((res) => {
           console.log(res);
@@ -69,7 +70,7 @@ export default function RestaurantHome() {
         reservationDate: dateTime,
         seatCount: counter,
         userPhone: authContext.phoneNumber,
-      })
+      }, { withCredentials: true })
       .then((res) => {
         alert("created reservation successfuly");
       })

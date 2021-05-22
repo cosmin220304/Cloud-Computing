@@ -16,7 +16,7 @@ const RestaurantReservations = (props: { restaurant: Restaurant }) => {
 
   const getAndSetReservations = () => {
     axios
-      .get(`/api/reservation`, { params: { restaurantName: restaurant.name } })
+      .get(`/api/reservation`, { params: { restaurantName: restaurant.name }, withCredentials: true })
       .then((res) => {
         console.log(res);
         setReservations(res.data);
@@ -30,14 +30,14 @@ const RestaurantReservations = (props: { restaurant: Restaurant }) => {
   }, []);
   const acceptReservation = (reservation: Reservation) => {
     axios
-      .post(`/api/reservation/${reservation._id}`, { status: "ACCEPTED" })
+      .post(`/api/reservation/${reservation._id}`, { status: "ACCEPTED" }, { withCredentials: true })
       .then((res) => {
         getAndSetReservations();
       });
   };
   const declineReservation = (reservation: Reservation) => {
     axios
-      .post(`/api/reservation/${reservation._id}`, { status: "DECLINED" })
+      .post(`/api/reservation/${reservation._id}`, { status: "DECLINED" }, { withCredentials: true })
       .then((res) => {
         getAndSetReservations();
       });

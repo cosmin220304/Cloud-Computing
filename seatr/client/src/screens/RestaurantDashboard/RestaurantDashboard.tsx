@@ -25,7 +25,7 @@ const RestaurantDashboard = () => {
 
   useEffect(() => {
     axios
-      .get("/api/restaurant", { params: { ownerId: authContext.uid } })
+      .get("/api/restaurant", { params: { ownerId: authContext.uid }, withCredentials: true })
       .then((val) => {
         if (val.status !== 200) throw new Error(val.data);
         setRestaurants(val.data);
