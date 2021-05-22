@@ -1,6 +1,6 @@
 const { restaurantController } = require("../controllers");
 const { Router } = require("express");
-const { restaurantValidator } = require("../schmas");
+const { restaurantValidator } = require("../schemas");
 
 const router = Router();
 
@@ -11,13 +11,18 @@ router.get(
 );
 router.post(
   "/restaurant",
-  restaurantValidator,
+  restaurantValidator.post,
   restaurantController.createRestaurant
 );
 router.put(
   "/restaurant/:restaurantName",
-  restaurantValidator,
+  restaurantValidator.post,
   restaurantController.updateRestaurantByName
+);
+router.patch(
+  "/restaurant/:restaurantName",
+  restaurantValidator.patch,
+  restaurantController.partialUpdateRestaurantByName
 );
 router.delete(
   "/restaurant/:restaurantName",

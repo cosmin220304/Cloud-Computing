@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { reservationController } = require("../controllers");
-const { reservationValidator } = require("../schmas");
+const { reservationValidator } = require("../schemas");
 
 const router = Router();
 

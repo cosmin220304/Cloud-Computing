@@ -49,6 +49,13 @@ body {
     }
   }
 
+  &_filter {
+    margin-top: 1rem;
+    width: 90%;
+    display: flex;
+    gap: 1rem;
+  }
+
   @media screen and (min-width: $medium) {
     width: 48rem;
     margin: auto;

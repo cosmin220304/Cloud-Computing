@@ -16,6 +16,12 @@ const restaurantSchema = new Schema({
   ],
   lat: SchemaTypes.Number,
   lng: SchemaTypes.Number,
+  tags: [SchemaTypes.String],
+  maxSeatCount: SchemaTypes.Number,
+  currentSeats: SchemaTypes.Number,
+  rating: SchemaTypes.Number,
+  starCount: SchemaTypes.Number,
+  starSum: SchemaTypes.Number,
 });
 
 module.exports = model("restaurant", restaurantSchema, "restaurant");
