@@ -62,8 +62,6 @@ module.exports.getReservationByDateTime = async (req, res) => {
 
 module.exports.createReservation = async (req, res) => {
   try {
-    const reservationKey = datastore.key("Reservation");
-    const restaurantName = req.params.restaurantName;
     const reservation = await db.Reservation.create({
       ...req.body,
       id: uuidv4(),
