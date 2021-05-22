@@ -20,7 +20,7 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install
-        CI='' npm run build
+        CI='' npm run start-github
       working-directory: ./seatr/client
       env:
         REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}

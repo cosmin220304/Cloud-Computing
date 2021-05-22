@@ -44,6 +44,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "CI=false && react-scripts build",
+    "start-github": "CI=false && node index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "react-scripts build && gcloud app deploy --quiet && gcloud app browse"

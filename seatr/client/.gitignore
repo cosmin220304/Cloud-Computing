@@ -7,10 +7,7 @@
 .pnp.js
 
 # testing
-/coverage
-
-# production
-/build
+/coverage 
 
 # misc
 .DS_Store
@@ -59,10 +56,7 @@ jspm_packages
 .npm
 
 # Optional REPL history
-.node_repl_history
-
-# Built app
-build/
+.node_repl_history 
 
 .sass-cache/
 *.css.map
