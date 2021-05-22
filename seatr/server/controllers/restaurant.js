@@ -67,14 +67,15 @@ module.exports.getRestaurantById = async (req, res) => {
 
 module.exports.updateRestaurantByName = async (req, res) => {
   try {
-    const restaurantName = req.params.restaurantName;
-
-    const updateRestaurant = db.Restaurant.updateOne(
-      { restaurantName },
-      { ...req.body }
+    const name = req.params.restaurantName;
+    console.log({ ...req.body });
+    const restaurant = await db.Restaurant.updateOne(
+      { name },
+      { $set: { ...req.body } }
     );
-    if (updateRestaurant) {
-      return res.status(200).json({ updateRestaurant });
+
+    if (restaurant) {
+      return res.status(200).json({ restaurant });
     }
   } catch (err) {
     console.log("Error updating restaurant > ", err.message);

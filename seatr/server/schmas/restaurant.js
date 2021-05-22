@@ -10,6 +10,7 @@ const postRestaurantSchema = Joi.object({
   menu: Joi.array().items(
     Joi.object({
       name: Joi.string(),
+      quantity: Joi.number(),
       description: Joi.string(),
       photoHref: Joi.string(),
       price: Joi.number().positive(),
@@ -17,7 +18,7 @@ const postRestaurantSchema = Joi.object({
   ),
   lat: Joi.number().required(),
   lng: Joi.number().required(),
-  tags: Joi.array().items(Joi.string().allow(null).allow('')).optional(),
+  tags: Joi.array().items(Joi.string().allow(null).allow("")).optional(),
   seatCount: Joi.number(),
   currentSeats: Joi.number(),
 });

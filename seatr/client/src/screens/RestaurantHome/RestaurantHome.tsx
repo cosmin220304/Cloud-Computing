@@ -5,15 +5,21 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveIcon from "@material-ui/icons/Remove";
 import TextField from "@material-ui/core/TextField";
 import AddReviewForm from "../../components/forms/addReviewForm";
-import ReviewsDialog from "../../components/reviews";
+import MenuItem from "../../models/MenuItem";
+
 import axios from "axios";
 
+interface ItemQuantity {
+  item: MenuItem;
+  quantity: number;
+}
 export default function RestaurantHome() {
   let location = useLocation();
   const [info, setInfo] = useState<any>();
   const [counter, setCounter] = useState<number>(1);
   const [open, setOpen] = useState<boolean>(false);
   const [reviews, setReviews] = useState<Array<any>>([]);
+  const [order, setOrder] = useState<Array<ItemQuantity>>([]);
 
   useEffect(() => {
     if (info?.name)

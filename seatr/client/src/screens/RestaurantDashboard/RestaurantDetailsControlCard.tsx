@@ -9,8 +9,9 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
-import { AddOutlined } from "@material-ui/icons";
+import { AddOutlined, RemoveCircle } from "@material-ui/icons";
 import MenuItem from "../../models/MenuItem";
+import axios from "axios";
 
 const RestaurantDetailsControlCard = (props: { restaurant: Restaurant }) => {
   const [restaurant, setRestaurant] = useState(props.restaurant);
@@ -35,6 +36,30 @@ const RestaurantDetailsControlCard = (props: { restaurant: Restaurant }) => {
         menu: [...prev.menu, newMenuItem],
       };
     });
+  };
+  const handleSaveChanges = () => {
+    const cleanRestaurant: any = { ...restaurant };
+    delete cleanRestaurant._id;
+    delete cleanRestaurant.ownerId;
+    delete cleanRestaurant.distance;
+    delete cleanRestaurant.__v;
+    cleanRestaurant.menu = cleanRestaurant.menu.map((menuItem) => ({
+      ...menuItem,
+      _id: undefined,
+    }));
+
+    axios
+      .put(`/api/restaurant/${restaurant.name}`, {
+        ...cleanRestaurant,
+        ...formik.values,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err);
+      });
   };
   return (
     <Grid item xs={12}>
@@ -88,6 +113,16 @@ const RestaurantDetailsControlCard = (props: { restaurant: Restaurant }) => {
                         setRestaurant((prev) => ({ ...prev, menu }));
                       }}
                     ></TextField>
+                    <Button
+                      onClick={() => {
+                        const menu = restaurant.menu.filter(
+                          (val, idx2) => idx2 !== idx
+                        );
+                        setRestaurant((prev) => ({ ...prev, menu }));
+                      }}
+                    >
+                      <RemoveCircle />
+                    </Button>
                   </Paper>
                 </Grid>
               );
@@ -99,6 +134,7 @@ const RestaurantDetailsControlCard = (props: { restaurant: Restaurant }) => {
             </Grid>
           </Grid>
         </Container>
+        <Button onClick={handleSaveChanges}>Save changes</Button>
       </Paper>
     </Grid>
   );
