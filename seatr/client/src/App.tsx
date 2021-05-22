@@ -41,6 +41,11 @@ function App() {
             <PrivateRoute exact path="/restaurant" component={RestaurantHome} />
             <PrivateRoute
               exact
+              path="/reservations"
+              component={UserReservations}
+            />
+            <PrivateRoute
+              exact
               path="/dashboard"
               component={RestaurantDashboard}
             />

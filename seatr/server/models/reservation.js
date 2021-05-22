@@ -4,6 +4,7 @@ const reservationSchema = new Schema({
   reservationDate: SchemaTypes.Date,
   seatCount: SchemaTypes.Number,
   userEmail: SchemaTypes.String,
+  userPhone: SchemaTypes.String,
   status: SchemaTypes.String,
 });
 
