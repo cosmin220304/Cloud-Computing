@@ -1,8 +1,6 @@
 {
-  "name": "seatr",
-  "version": "0.1.0",
-  "private": true,
   "scripts": {
+    "heroku-prebuild": "cd seatr/client && npm install && npm run build",
     "start": "node seatr/client/index.js"
   }
 }
