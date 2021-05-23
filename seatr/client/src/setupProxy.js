@@ -1,7 +1,7 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-const url = "https://seatr-the-best-api.azurewebsites.net";
-const host = "seatr-the-best-api.azurewebsites.net";
+const url = process.env.API_URL || "http://localhost:8080";
+const host = process.env.API_HOST || "localhost:8080";
 module.exports = function (app) {
   app.use(
     "/api/*",
