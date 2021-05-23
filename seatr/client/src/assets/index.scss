@@ -23,7 +23,8 @@ body {
 
 .list-element-selected {
   @extend .list-element;
-  background: rgba(33, 33, 33, 0.18);
+  background: rgba(61, 81, 87, 0.25);
+  border: 1px solid black;
 }
 
 .logo {

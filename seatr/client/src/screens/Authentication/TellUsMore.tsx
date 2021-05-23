@@ -7,35 +7,68 @@ interface IProps {
   setIsNewUser: Function;
 }
 
+interface Errors {
+  name: Boolean,
+  surname: Boolean,
+  email: Boolean,
+}
+
+const noErros: Errors = {
+  name: false,
+  surname: false,
+  email: false,
+}
+
 export default function TellUsMore({ setIsNewUser }: IProps) {
-  const [selectedGender, setSelectedGender] = useState<string>();
+  const [selectedGender, setSelectedGender] = useState<string>("Other");
   const [, setUser] = useContext(AuthContext);
+  const [errors, setErrors] = useState<Errors>(noErros);
 
   const handleClick = (evt: any) => {
     const newSelectedGender = evt.currentTarget.textContent;
-    const previousTarget: any = document.getElementsByClassName(
-      "list-element-selected"
-    )[0];
-    const target: any = document.getElementById(newSelectedGender);
-
-    if (previousTarget) {
-      previousTarget.className = "list-element";
-    }
-
-    target.className = "list-element-selected";
     setSelectedGender(newSelectedGender);
   };
 
+  const getClassForGender = (genderName: string) => {
+    if (selectedGender === genderName) {
+      return "list-element-selected";
+    }
+    return "list-element";
+  }
+
   const formik = useFormik({
-    initialValues: { name: "", surname: "" },
+    initialValues: { 
+      name: "", 
+      surname: "", 
+      email: "" 
+    },
     onSubmit: (values) => {
-      //todo: validation
+      let newErrors: Errors = noErros;
+      let hasErrors = false;
+      
+      if (values.name === "") {
+        newErrors.name = true;
+        hasErrors = true;
+      }
+      if (values.surname === "") {
+        newErrors.surname = true;
+        hasErrors = true;
+      }
+      if (values.email === "") {
+        newErrors.email = true;
+        hasErrors = true;
+      }
+
+      setErrors(newErrors)
+      if (hasErrors) return;
+
       setUser((prev: any) => ({
         phoneNumber: prev.phoneNumber,
         uid: prev.uid,
         name: values.name,
         surname: values.surname,
         gender: selectedGender,
+        email: values.email,
       }));
       setIsNewUser(false);
     },
@@ -58,6 +91,7 @@ export default function TellUsMore({ setIsNewUser }: IProps) {
             variant="outlined"
             onChange={formik.handleChange}
             className="w-100p"
+            error={true === errors.name}
           />
         </div>
 
@@ -68,17 +102,29 @@ export default function TellUsMore({ setIsNewUser }: IProps) {
             variant="outlined"
             onChange={formik.handleChange}
             className="w-100p"
+            error={true === errors.surname}
+          />
+        </div>
+
+        <div className="m-t-1 w-20">
+          <TextField
+            name="email"
+            label="email"
+            variant="outlined"
+            onChange={formik.handleChange}
+            className="w-100p"
+            error={true === errors.email}
           />
         </div>
 
         <div className="flex gap-1 m-t-2" id="category">
-          <div className="list-element" id="Man" onClick={handleClick}>
+          <div className={getClassForGender("Man")} id="Man" onClick={handleClick}>
             <Typography align="center">Man</Typography>
           </div>
-          <div className="list-element" id="Woman" onClick={handleClick}>
+          <div className={getClassForGender("Woman")} id="Woman" onClick={handleClick}>
             <Typography align="center">Woman</Typography>
           </div>
-          <div className="list-element" id="Other" onClick={handleClick}>
+          <div className={getClassForGender("Other")} id="Other" onClick={handleClick}>
             <Typography align="center">Other</Typography>
           </div>
         </div>
