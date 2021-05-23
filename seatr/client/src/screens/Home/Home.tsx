@@ -58,7 +58,7 @@ export default function Home() {
 
   useEffect(() => {
     makeSearch();
-  }, [makeSearch, covidFilter]);
+  }, []);
 
   const sortBy = ({ value }) => {
     let orderedRestaurant = [...restaurants];
@@ -79,7 +79,7 @@ export default function Home() {
       default:
         throw new Error("invalid sort by value")
     }
-    setRestaurants(orderedRestaurant);
+    setFilteredRestaurants(orderedRestaurant);
   }
 
   return (
