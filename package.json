@@ -43,7 +43,7 @@
     "webpack": "^4.44.2"
   },
   "scripts": {
-    "start": "cd seatr && cd client && react-scripts start",
+    "start": "cd seatr && cd client && node index.js",
     "build": "react-scripts build",
     "start-github": "CI=false && node index.js",
     "build-and-run": "react-scripts build && node index.js",
