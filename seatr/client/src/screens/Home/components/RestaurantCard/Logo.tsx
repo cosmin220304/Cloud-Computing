@@ -8,7 +8,7 @@ export default function Logo({ logoHref }: IProps) {
   return (
     <div className="restaurant-card__logo">
       <img
-        className="w-5 h-5 cover round border-white"
+        className="w-5 h-5 cover round border-white pointer"
         alt="company logo"
         src={logoHref}
       />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Paper, InputBase } from "@material-ui/core";
 import { MenuOutlined, SearchOutlined } from "@material-ui/icons";
 import Restaurant from "../../models/Restaurant";
-import RestaurantCardList from "./RestaurantCardList";
+import RestaurantCardList from "./components/RestaurantCardList";
 import axios from "axios";
 import { Switch } from "pretty-checkbox-react";
 import "@djthoms/pretty-checkbox";

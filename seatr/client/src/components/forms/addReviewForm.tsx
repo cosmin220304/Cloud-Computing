@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import axios from "axios";
+import { AuthContext } from "../../utils/AuthContext";
 
 import Rating from "@material-ui/lab/Rating";
 
@@ -17,6 +18,8 @@ interface IAddReviewForm {
   restaurantName?: string;
 }
 export default function AddReviewForm(props: IAddReviewForm) {
+  const [authContext,] = useContext(AuthContext);
+
   const formik = useFormik({
     onSubmit: () => {
       let fileToBlob = async (file) =>
@@ -24,7 +27,6 @@ export default function AddReviewForm(props: IAddReviewForm) {
           type: file.type,
         });
 
-      console.log(formik.values);
       const formData = new FormData();
       const file: any = formik.values.file;
       fileToBlob(file)
@@ -32,6 +34,7 @@ export default function AddReviewForm(props: IAddReviewForm) {
           formData.append("description", formik.values.description);
           formData.append("rating", String(formik.values.rating));
           formData.append("streamfile", blob);
+          formData.append("personName", authContext.name);
           if (props.restaurantName)
             formData.append("restaurantName", props.restaurantName);
           axios
@@ -40,10 +43,7 @@ export default function AddReviewForm(props: IAddReviewForm) {
                 "Content-Type": "multipart/form-data",
               },
               withCredentials: true
-            })
-            .then((res) => {
-              console.log(res.data);
-            })
+            }) 
             .catch((err) => {
               console.log(err.message);
             });
@@ -53,12 +53,14 @@ export default function AddReviewForm(props: IAddReviewForm) {
             .post("/api/review", {
               description: formik.values.description,
               stars: formik.values.rating,
-              restaurantName: props.restaurantName
+              restaurantName: props.restaurantName,
+              personName: authContext.name,
             }, { withCredentials: true })
             .catch((err) => {
               console.log(err.message);
             });
-        });
+        })
+        .finally(() => props.onClose());
     },
     initialValues: { description: "", rating: 0, file: null },
   });

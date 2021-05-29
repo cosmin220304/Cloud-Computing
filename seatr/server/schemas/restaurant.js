@@ -19,7 +19,7 @@ const postRestaurantSchema = Joi.object({
   lat: Joi.number().required(),
   lng: Joi.number().required(),
   tags: Joi.array().items(Joi.string().allow(null).allow("")).optional(),
-  seatCount: Joi.number().required(),
+  maxSeatCount: Joi.number().required(),
   currentAvailableSeats: Joi.number().required(),
   priceRange: Joi.number().min(1).max(3).required(),
 });
@@ -41,7 +41,7 @@ const patchRestaurantSchema = Joi.object({
   lat: Joi.number().optional(),
   lng: Joi.number().optional(),
   tags: Joi.array().items(Joi.string().allow(null).allow("")).optional(),
-  seatCount: Joi.number().optional(),
+  maxSeatCount: Joi.number().optional(),
   currentAvailableSeats: Joi.number().optional(),
   priceRange: Joi.number().min(1).max(3).optional(),
 });

@@ -9,6 +9,7 @@ const restaurantSchema = new Schema({
   menu: [
     {
       name: SchemaTypes.String,
+      quantity: SchemaTypes.Number,
       description: SchemaTypes.String,
       photoHref: SchemaTypes.String,
       price: SchemaTypes.Number,

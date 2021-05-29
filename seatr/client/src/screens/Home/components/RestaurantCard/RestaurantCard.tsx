@@ -1,6 +1,6 @@
 import React, { Paper } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import Menu from "../../models/MenuItem";
+import Menu from "../../../../models/MenuItem";
 import Logo from "./Logo";
 import Background from "./Background";
 import Description from "./Description";
@@ -51,13 +51,11 @@ export default function RestaurantCard({
       <div onClick={goToDetails}>
         <Logo logoHref={logoHref} />
       </div>
-      <div onClick={goToDetails}>
+      <div onClick={goToDetails} className="pointer">
         <Background backgroundHref={backgroundHref} />
       </div>
-      <Paper className="flex-column">
-        <div onClick={goToDetails}>
-          <Description name={name} description={description} />
-        </div>
+      <Paper className="flex-column pointer" onClick={goToDetails}>
+        <Description name={name} description={description} />
         <Footer
           priceRange={priceRange}
           starRating={rating}

@@ -26,7 +26,7 @@ const PaymentDialog = (props: PaymentDialogProps) => {
       <DialogTitle>Pay for your order</DialogTitle>
       <Typography>{`You have to pay ${calculateTotal(
         props.order
-      )}$`}</Typography>
+      )} RON`}</Typography>
       <GooglePayButton
         environment="TEST"
         paymentRequest={{
@@ -55,8 +55,8 @@ const PaymentDialog = (props: PaymentDialogProps) => {
             totalPriceStatus: "FINAL",
             totalPriceLabel: "Total",
             totalPrice: `${calculateTotal(props.order)}`,
-            currencyCode: "USD",
-            countryCode: "US",
+            currencyCode: "RON",
+            countryCode: "ROU",
           },
         }}
         onLoadPaymentData={(paymentRequest) => {

@@ -48,9 +48,11 @@ const RestaurantDetailsControlCard = (props: { restaurant: Restaurant }) => {
       _id: undefined,
     }));
 
+    const {starCount, starSum, rating, ...putParams} = cleanRestaurant;
+    console.log(putParams)
     axios
       .put(`/api/restaurant/${restaurant.name}`, {
-        ...cleanRestaurant,
+        ...putParams,
         ...formik.values,
       }, { withCredentials: true })
       .then((res) => {
@@ -63,9 +65,10 @@ const RestaurantDetailsControlCard = (props: { restaurant: Restaurant }) => {
   };
   return (
     <Grid item xs={12}>
-      <Paper>
+      <Paper className="p-1">
         <Container>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <Typography variant="h4">{"Tile & Description"}</Typography>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1rem", padding: "1rem" }}>
             <TextField
               label="name"
               name="name"
@@ -81,11 +84,11 @@ const RestaurantDetailsControlCard = (props: { restaurant: Restaurant }) => {
           </div>
 
           <Typography variant="h4">{"Menu"}</Typography>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} className="p-1">
             {restaurant.menu.map((menuItem, idx) => {
               return (
                 <Grid item xs={12} key={idx}>
-                  <Paper>
+                  <Paper className="p-1">
                     <TextField
                       label="Name"
                       value={menuItem.name}
@@ -132,9 +135,9 @@ const RestaurantDetailsControlCard = (props: { restaurant: Restaurant }) => {
                 add item <AddOutlined />
               </Button>
             </Grid>
+            <Button onClick={handleSaveChanges}>Save changes</Button>
           </Grid>
         </Container>
-        <Button onClick={handleSaveChanges}>Save changes</Button>
       </Paper>
     </Grid>
   );

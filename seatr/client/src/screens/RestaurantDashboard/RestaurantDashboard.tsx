@@ -28,6 +28,7 @@ const RestaurantDashboard = () => {
       .get("/api/restaurant", { params: { ownerId: authContext.uid }, withCredentials: true })
       .then((val) => {
         if (val.status !== 200) throw new Error(val.data);
+        console.log(val.data, authContext.uid)
         setRestaurants(val.data);
         setSelectedRestaurant(val.data[0]);
       })
@@ -50,27 +51,29 @@ const RestaurantDashboard = () => {
   };
 
   return (
-    <div>
+    <div className="m-t-1">
       <Container>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography variant="h4">Select a restaurant</Typography>
           </Grid>
           <Grid item xs={12}>
-            {selectedRestaurant && (
-              <Select
-                fullWidth
-                value={selectedRestaurant.name}
-                onChange={onSelectedRestaurantChange}
-                style={{ marginTop: "1rem", marginBottom: "1rem" }}
-              >
-                {restaurants.map((restaurant, idx) => (
-                  <MenuItem key={idx} value={restaurant.name}>
-                    {restaurant.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
+            <Paper className="p-1">
+              {selectedRestaurant && (
+                <Select
+                  fullWidth
+                  value={selectedRestaurant.name}
+                  onChange={onSelectedRestaurantChange}
+                  style={{ marginTop: "1rem", marginBottom: "1rem" }}
+                >
+                  {restaurants.map((restaurant, idx) => (
+                    <MenuItem key={idx} value={restaurant.name}>
+                      {restaurant.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            </Paper>
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h4">Restaurant Details</Typography>

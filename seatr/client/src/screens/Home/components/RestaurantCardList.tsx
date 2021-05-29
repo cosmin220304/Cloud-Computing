@@ -1,6 +1,6 @@
 import React from "react";
-import Restaurant from "../../models/Restaurant";
-import RestaurantCard from "../../components/RestaurantCard";
+import Restaurant from "../../../models/Restaurant";
+import RestaurantCard from "./RestaurantCard";
 import { v4 as uuidv4 } from 'uuid';
 
 interface IProps {

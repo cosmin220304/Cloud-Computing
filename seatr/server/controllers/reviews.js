@@ -33,6 +33,7 @@ module.exports.addReview = async (req, res) => {
   try {
     const file = req.file;
     const { stars, restaurantName } = req.body;
+    const personName = req.body.personName || "unkown";
 
     let imgSrc = "";
     if (file) {
@@ -50,13 +51,14 @@ module.exports.addReview = async (req, res) => {
         { $set: {
           starCount,
           starSum,
-          rating
+          rating,
         }}
-      )
-    }
-    const review = await Review.create({
-      ...req.body,
-      imageHref: imgSrc,
+        )
+      }
+      const review = await Review.create({
+        ...req.body,
+        imageHref: imgSrc,
+        personName,
     });
     return res.status(200).json(review);
   } catch (err) {

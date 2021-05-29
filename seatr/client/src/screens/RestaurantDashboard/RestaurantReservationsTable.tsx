@@ -16,7 +16,7 @@ const RestaurantReservations = (props: { restaurant: Restaurant }) => {
 
   const getAndSetReservations = () => {
     axios
-      .get(`/api/reservation`, { params: { restaurantName: restaurant.name }, withCredentials: true })
+      .get(`/api/reservation`, { params: { restaurantName: restaurant.name, }, withCredentials: true })
       .then((res) => {
         console.log(res);
         setReservations(res.data);
@@ -25,9 +25,11 @@ const RestaurantReservations = (props: { restaurant: Restaurant }) => {
         console.log(err);
       });
   };
+
   useEffect(() => {
     getAndSetReservations();
   }, []);
+
   const acceptReservation = (reservation: Reservation) => {
     axios
       .post(`/api/reservation/${reservation._id}`, { status: "ACCEPTED" }, { withCredentials: true })
@@ -35,6 +37,7 @@ const RestaurantReservations = (props: { restaurant: Restaurant }) => {
         getAndSetReservations();
       });
   };
+
   const declineReservation = (reservation: Reservation) => {
     axios
       .post(`/api/reservation/${reservation._id}`, { status: "DECLINED" }, { withCredentials: true })
@@ -46,36 +49,19 @@ const RestaurantReservations = (props: { restaurant: Restaurant }) => {
     <div>
       {(reservations.length &&
         reservations.map((val: Reservation, id: number) => (
-          <Paper>
-            <Container>
-              <Typography>restaurant: {val.restaurantName}</Typography>
-              <Typography>phone: {val.userPhone}</Typography>
-              <Typography>status: {val.status}</Typography>
-              <Typography>
-                date: {val.reservationDate.toString().split("T")[0]}
-              </Typography>
-              <Typography>
-                time:{" "}
-                {val.reservationDate.toString().split("T")[1].split(".")[0]}
-              </Typography>
-              <Typography>number of seats:{val.seatCount}</Typography>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Button
-                  onClick={() => {
-                    declineReservation(val);
-                  }}
-                >
-                  Decline
-                </Button>
-                <Button
-                  onClick={() => {
-                    acceptReservation(val);
-                  }}
-                >
-                  Accept
-                </Button>
+          <Paper className="p-1 center-children">
+            <div className="center-children">
+              <div>restaurant: {val.restaurantName}</div>
+              <div>phone: {val.userPhone}</div>
+              <div>status: {val.status}</div>
+              <div>date: {val.reservationDate.toString().split("T")[0]}</div>
+              <div>time:{" "}{val.reservationDate.toString().split("T")[1].split(".")[0]}</div>
+              <div>number of seats:{val.seatCount}</div>
+              <div className="flex">
+                <Button onClick={() => declineReservation(val)}> Decline </Button>
+                <Button onClick={() => acceptReservation(val)}> Accept </Button>
               </div>
-            </Container>
+            </div>
           </Paper>
         ))) || (
         <Paper>
