@@ -10,6 +10,7 @@ import Home from "./screens/Home";
 import RestaurantHome from "./screens/RestaurantHome";
 import RestaurantDashboard from "./screens/RestaurantDashboard";
 import TellUsMore from "./screens/Authentication/TellUsMore";
+import UserReservation from "./screens/UserReservation";
 
 const theme = createMuiTheme({
   palette: {
@@ -34,6 +35,7 @@ function App() {
             <PrivateRoute exact path="/" component={Home} /> 
             <PrivateRoute exact path="/restaurant" component={RestaurantHome} /> 
             <PrivateRoute exact path="/dashboard" component={RestaurantDashboard} />
+            <PrivateRoute exact path="/reservation" component={UserReservation} />
           </Route>
         </Switch>
       </Router>

@@ -62,8 +62,10 @@ module.exports.getReservationByDateTime = async (req, res) => {
 
 module.exports.createReservation = async (req, res) => {
   try {
+    const restaurantName = req.params.restaurantName
     const reservation = await db.Reservation.create({
       ...req.body,
+      restaurantName,
       id: uuidv4(),
       status: "PENDING",
     });

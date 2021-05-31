@@ -5,6 +5,9 @@ interface Reservation {
   seatCount: number;
   reservationDate: Date;
   status: "PENDING" | "ACCEPTED" | "DECLINE" | string;
+  userName: string;
+  userGender: string;
+  order: string;
 }
 
 export default Reservation;

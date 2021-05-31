@@ -3,9 +3,12 @@ const { model, Schema, SchemaTypes } = require("mongoose");
 const reservationSchema = new Schema({
   reservationDate: SchemaTypes.Date,
   seatCount: SchemaTypes.Number,
-  userEmail: SchemaTypes.String,
   userPhone: SchemaTypes.String,
   status: SchemaTypes.String,
+  userGender: SchemaTypes.String, 
+  userName: SchemaTypes.String, 
+  restaurantName: SchemaTypes.String, 
+  order: SchemaTypes.String, 
 });
 
 module.exports = model("reservation", reservationSchema, "reservation");

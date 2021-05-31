@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Paper, Typography, Button } from "@material-ui/core";
 import { v4 as uuidv4 } from 'uuid';
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveIcon from "@material-ui/icons/Remove";
 import TextField from "@material-ui/core/TextField";
@@ -23,6 +23,7 @@ interface ItemQuantity {
 }
 export default function RestaurantHome() {
   let location = useLocation();
+  let history = useHistory();
 
   const [authContext,] = useContext(AuthContext);
   const [restaurant, setRestaurant] = useState<any>();
@@ -30,14 +31,16 @@ export default function RestaurantHome() {
   const [openReviewDialog, setOpenReviewDialog] = useState<boolean>(false);
   const [openPaymentDialog, setOpenPaymentDialog] = useState<boolean>(false);
   const [order, setOrder] = useState<Array<ItemQuantity>>([]);
-  const [dateTime, setDateTime] = useState("2017-05-24");
+  const [dateTime, setDateTime] = useState("2017-05-24T10:30");
 
   useEffect(() => {
-    if (location.state) {
-      setRestaurant(location.state);
-      const restaurant: any = location.state;
-      setOrder(restaurant.menu.map((menuItem: MenuItem) => ({ item: menuItem, quantity: 0 })));
+    if (location.state) { 
+      //if user came from restaurant page
+      const _restaurant: any = location.state;
+      setRestaurant(_restaurant)
+      setOrder(_restaurant.menu.map((menuItem: MenuItem) => ({ item: menuItem, quantity: 0 })));
     } else {
+      //if user came from url
       const restaurantName = location["search"].split("=")[1];
       (async function () {
         const { data } = await axios.get(`/api/restaurant/${restaurantName}`)
@@ -47,12 +50,28 @@ export default function RestaurantHome() {
       })()
     }
   }, [location]);
+
+  const finishMakeReservation = async () => {
+    try {
+      await axios.post(`/api/restaurant/${restaurant.name}/reservation`, {
+        reservationDate: dateTime,
+        seatCount: counter,
+        userPhone: authContext.phoneNumber, 
+        userGender: authContext.gender, 
+        userName: `${authContext.surname} ${authContext.name}`,
+        order: order.filter(o => o.quantity > 0).map(o => `${o.item.name} x ${o.quantity}`).join(', '),
+      }, { withCredentials: true })
+      .then(() => history.push("/reservation"))
+    } catch (err) {
+      alert(JSON.stringify(err.response.data));
+    }
+  }
   
-  const handleMakeReservation = async () => {
+  const handleMakeReservation = () => {
     if (counter === 0) {
       alert("Choose seat count!")
       return;
-    }
+    } 
 
     const paymentRequired = order.some(o => o.quantity > 0);
     if (paymentRequired) {
@@ -60,18 +79,8 @@ export default function RestaurantHome() {
       return;
     }
 
-    try {
-      await axios.post(`/api/restaurant/${restaurant.name}/reservation`, {
-        reservationDate: dateTime,
-        seatCount: counter,
-        userPhone: authContext.phoneNumber,
-      }, { withCredentials: true })
-      alert("created reservation successfuly");
-    } catch (err) {
-      alert(JSON.stringify(err.response.data));
-    }
+    finishMakeReservation()
   };
-
 
   if (!restaurant) return null;
 
@@ -99,9 +108,9 @@ export default function RestaurantHome() {
       <Paper className="restaurant-home__appointment-inputs" >
         <div>When?</div>
         <div>How many people?  </div>
-        <TextField id="date" label="Date" type="date" value={dateTime} onChange={(event) => setDateTime(event.target.value)} />
+        <TextField id="date" label="Date" type="datetime-local" value={dateTime} onChange={(event) => setDateTime(event.target.value)} />
         <div>
-          <Button onClick={() => setCounter(prev => prev - 1)}> <RemoveIcon /> </Button>
+          <Button onClick={() => setCounter(prev => Math.max(0, prev - 1))}> <RemoveIcon /> </Button>
           {counter}
           <Button onClick={() => setCounter(prev => prev + 1)}> <AddCircleIcon color="secondary" /> </Button>
         </div>
@@ -122,7 +131,7 @@ export default function RestaurantHome() {
       </Accordion>
 
       <AddReviewForm restaurantName={restaurant.name} open={openReviewDialog} onClose={() => setOpenReviewDialog(false)} />
-      <PaymentDialog order={order} dialogProps={{ open: (openPaymentDialog), onClose: () => { setOpenPaymentDialog(false) } }} />
+      <PaymentDialog order={order} finishMakeReservation={finishMakeReservation} dialogProps={{ open: (openPaymentDialog), onClose: () => { setOpenPaymentDialog(false) } }} />
     </div>
   );
 }

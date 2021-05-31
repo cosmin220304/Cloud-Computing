@@ -12,6 +12,7 @@ interface ItemQuantity {
 interface PaymentDialogProps {
   dialogProps: DialogProps;
   order: Array<ItemQuantity>;
+  finishMakeReservation: Function
 }
 const PaymentDialog = (props: PaymentDialogProps) => {
   const calculateTotal = (order: Array<ItemQuantity>) => {
@@ -23,46 +24,47 @@ const PaymentDialog = (props: PaymentDialogProps) => {
   };
   return (
     <Dialog {...props.dialogProps}>
-      <DialogTitle>Pay for your order</DialogTitle>
-      <Typography>{`You have to pay ${calculateTotal(
-        props.order
-      )} RON`}</Typography>
-      <GooglePayButton
-        environment="TEST"
-        paymentRequest={{
-          apiVersion: 2,
-          apiVersionMinor: 0,
-          allowedPaymentMethods: [
-            {
-              type: "CARD",
-              parameters: {
-                allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                allowedCardNetworks: ["MASTERCARD", "VISA"],
-              },
-              tokenizationSpecification: {
-                type: "PAYMENT_GATEWAY",
+      <DialogTitle> <div className="center-text"> Pay for your order </div> </DialogTitle>
+      <div className="center-children p-2 gap-1">
+        <Typography>{`You have to pay ${calculateTotal(props.order)} RON`}</Typography>
+        <GooglePayButton
+          environment="TEST"
+          paymentRequest={{
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            allowedPaymentMethods: [
+              {
+                type: "CARD",
                 parameters: {
-                  gateway: "example",
+                  allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                  allowedCardNetworks: ["MASTERCARD", "VISA"],
+                },
+                tokenizationSpecification: {
+                  type: "PAYMENT_GATEWAY",
+                  parameters: {
+                    gateway: "example",
+                  },
                 },
               },
+            ],
+            merchantInfo: {
+              merchantId: "12345678901234567890",
+              merchantName: "Demo Merchant",
             },
-          ],
-          merchantInfo: {
-            merchantId: "12345678901234567890",
-            merchantName: "Demo Merchant",
-          },
-          transactionInfo: {
-            totalPriceStatus: "FINAL",
-            totalPriceLabel: "Total",
-            totalPrice: `${calculateTotal(props.order)}`,
-            currencyCode: "RON",
-            countryCode: "ROU",
-          },
-        }}
-        onLoadPaymentData={(paymentRequest) => {
-          console.log("load payment data", paymentRequest);
-        }}
-      />
+            transactionInfo: {
+              totalPriceStatus: "FINAL",
+              totalPriceLabel: "Total",
+              totalPrice: `${calculateTotal(props.order)}`,
+              currencyCode: "RON",
+              countryCode: "RO",
+            },
+          }}
+          onLoadPaymentData={(paymentRequest) => {
+            console.log("load payment data", paymentRequest);
+            props.finishMakeReservation();
+          }}
+        />
+      </div>
     </Dialog>
   );
 };
