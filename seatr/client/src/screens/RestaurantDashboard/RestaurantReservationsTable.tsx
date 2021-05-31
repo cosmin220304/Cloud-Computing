@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Paper, Grid, Typography, Button, Container } from "@material-ui/core";
+import { Paper, Typography, Button } from "@material-ui/core";
 import Reservation from "../../models/Reservation";
 import axios from "axios";
 import Restaurant from "../../models/Restaurant";
-
-interface IProps {
-  restaurantName: string;
-}
 
 const RestaurantReservations = (props: { restaurant: Restaurant }) => {
   const { restaurant } = props;
@@ -20,7 +16,6 @@ const RestaurantReservations = (props: { restaurant: Restaurant }) => {
         setReservations(data);
 
         await new Promise(res => setTimeout(res, 1000))
-        
       } catch (err) {
         console.log(err)
       }
@@ -43,7 +38,7 @@ const RestaurantReservations = (props: { restaurant: Restaurant }) => {
     <div className="flex wrap">
       {(reservations.length &&
         reservations.map((val: Reservation, id: number) => (
-          <Paper className="p-1 m-1 flex-column">
+          <Paper className="p-1 m-1 flex-column" style={{width: "20rem"}}>
             <div><b>restaurant:</b> {val.restaurantName}</div>
             <div><b>date:</b> {val.reservationDate.toString().split("T")[0]}</div>
             <div><b>time:</b> {val.reservationDate.toString().split("T")[1].split(".")[0]}</div>

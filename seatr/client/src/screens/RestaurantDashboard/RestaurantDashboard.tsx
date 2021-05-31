@@ -8,20 +8,11 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import RestaurantDetailsControlCard from "./RestaurantDetailsControlCard";
 import RestaurantReservationsTable from "./RestaurantReservationsTable";
-
-const mock = {
-  restaurantName: "Mamma Mia",
-  menuItems: [],
-};
+ 
 const RestaurantDashboard = () => {
-  const restaurantName = mock.restaurantName;
-  const menuItems = mock.menuItems;
   const [authContext,] = useContext(AuthContext);
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
-  const [
-    selectedRestaurant,
-    setSelectedRestaurant,
-  ] = useState<Restaurant | null>(null);
+  const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
 
   useEffect(() => {
     axios
