@@ -47,8 +47,13 @@ export default function RestaurantHome() {
       })()
     }
   }, [location]);
-
+  
   const handleMakeReservation = async () => {
+    if (counter === 0) {
+      alert("Choose seat count!")
+      return;
+    }
+
     const paymentRequired = order.some(o => o.quantity > 0);
     if (paymentRequired) {
       setOpenPaymentDialog(true);
@@ -84,12 +89,12 @@ export default function RestaurantHome() {
         {restaurant.description}
       </Paper>
 
-      <Paper className="restaurant-home__menu-items" >
+      {order.length > 0 && <Paper className="restaurant-home__menu-items" >
         Preorder the food
             <div>
           {order.map((menuItem: ItemQuantity) => <MenuItemComponent menuItem={menuItem} setOrder={setOrder} key={uuidv4()} />)}
         </div>
-      </Paper>
+      </Paper>}
 
       <Paper className="restaurant-home__appointment-inputs" >
         <div>When?</div>

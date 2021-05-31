@@ -4,12 +4,9 @@ import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 import firebase from "firebase";
 import { AuthContext } from "../../utils/AuthContext";
+import axios from "axios";
 
-interface IProps {
-  setIsNewUser: Function;
-}
-
-export default function Login({ setIsNewUser }: IProps) {
+export default function Login() {
   const [, setUser] = useContext(AuthContext);
 
   useEffect(() => {
@@ -21,12 +18,19 @@ export default function Login({ setIsNewUser }: IProps) {
       callbacks: {
         signInSuccessWithAuthResult: (authResult: any) => {
           const user = authResult.user;
-          const isNewUser = authResult.additionalUserInfo.isNewUser;
-          setIsNewUser(isNewUser);
-          setUser({
-            phoneNumber: user.phoneNumber,
-            uid: user.uid,
-          });
+          axios.get(`/api/user/${user.uid}`, { withCredentials: true })
+            .then(({ data }) => {
+              setUser({
+                ...data,
+                isNewUser: false,
+              });
+            }).catch(() => {
+              setUser({
+                phoneNumber: user.phoneNumber,
+                uid: user.uid,
+                isNewUser: true,
+              });
+            })
           return false;
         },
         uiShown: () => {
@@ -63,7 +67,7 @@ export default function Login({ setIsNewUser }: IProps) {
       firebaseui.auth.AuthUI.getInstance() ||
       new firebaseui.auth.AuthUI(firebase.auth());
     ui.start("#firebaseui-auth-container", uiConfig);
-  }, [setIsNewUser, setUser]);
+  }, [setUser]);
 
   return (
     <>

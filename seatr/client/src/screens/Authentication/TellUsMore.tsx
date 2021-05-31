@@ -2,10 +2,7 @@ import React, { useState, useContext } from "react";
 import { Button, Container, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 import { AuthContext } from "../../utils/AuthContext";
-
-interface IProps {
-  setIsNewUser: Function;
-}
+import axios from "axios";
 
 interface Errors {
   name: Boolean,
@@ -19,9 +16,9 @@ const noErros: Errors = {
   email: false,
 }
 
-export default function TellUsMore({ setIsNewUser }: IProps) {
+export default function TellUsMore() {
   const [selectedGender, setSelectedGender] = useState<string>("Other");
-  const [, setUser] = useContext(AuthContext);
+  const [user, setUser] = useContext(AuthContext);
   const [errors, setErrors] = useState<Errors>(noErros);
 
   const handleClick = (evt: any) => {
@@ -62,15 +59,16 @@ export default function TellUsMore({ setIsNewUser }: IProps) {
       setErrors(newErrors)
       if (hasErrors) return;
 
-      setUser((prev: any) => ({
-        phoneNumber: prev.phoneNumber,
-        uid: prev.uid,
+      const userInfo = {
+        phoneNumber: user.phoneNumber,
+        uid: user.uid,
         name: values.name,
         surname: values.surname,
         gender: selectedGender,
-        email: values.email,
-      }));
-      setIsNewUser(false);
+        email: values.email, 
+      }
+      axios.post(`/api/user`, {...userInfo}, {withCredentials: true})
+      .then(() => setUser({...userInfo, isNewUser: false}))
     },
   });
 

@@ -16,7 +16,7 @@ const mock = {
 const RestaurantDashboard = () => {
   const restaurantName = mock.restaurantName;
   const menuItems = mock.menuItems;
-  const [authContext, setAuthContext] = useContext(AuthContext);
+  const [authContext,] = useContext(AuthContext);
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
   const [
     selectedRestaurant,
@@ -93,7 +93,7 @@ const RestaurantDashboard = () => {
           </Grid>
           <Grid item xs={12}>
             <Button>
-              <Typography> add a restaurnat</Typography>
+              <Typography> add a restaurant</Typography>
               <AddOutlined />
             </Button>
           </Grid>

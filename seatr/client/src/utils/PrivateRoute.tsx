@@ -14,15 +14,18 @@ export default function PrivateRoute({ component: Component, ...rest }: any) {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        !user || user === "undefined" ? (
-          <Redirect
-            to={{ pathname: "/login", state: { prevPath: location.pathname } }}
-          />
-        ) : (
-          <Component {...props} />
-        )
-      }
+      render={(props) => {
+        
+        if (!user || user === "undefined") {
+          return <Redirect to={{ pathname: "/login", state: { prevPath: location.pathname } }} />
+        }
+
+        if (!user.email) {
+          return <Redirect to={{ pathname: "/info" }} />
+        }
+
+        return <Component {...props} />
+      }}
     />
   );
 }

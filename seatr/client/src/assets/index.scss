@@ -185,7 +185,7 @@ body {
   &__title {
     @include center();
     margin: 1rem 0;
-    padding: 0 0 1rem 0;
+    padding: 0 1rem 1rem 1rem;
   }
 
   &__menu-items {
