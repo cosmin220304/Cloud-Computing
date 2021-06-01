@@ -30,6 +30,7 @@ jobs:
         AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         PORT: ${{ secrets.PORT }}
         SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
+        FCM_SERVER_KEY: ${{ secrets.FCM_SERVER_KEY }}
          
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
