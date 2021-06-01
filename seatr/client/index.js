@@ -11,7 +11,7 @@ app.use(cors({
 }))
 
 app.get("/service-worker.js", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "src", "serviceWorker.ts"));
+  res.sendFile(path.join(__dirname, "build", "serviceWorker.js"));
 });
 
 app.get("/api/**", (req, res) => {
