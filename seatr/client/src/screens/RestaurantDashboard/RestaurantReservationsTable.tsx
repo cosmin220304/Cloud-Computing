@@ -12,7 +12,7 @@ const RestaurantReservations = (props: { restaurant: Restaurant }) => {
     while (1) {
       try {
         const { data } = await axios.get(`/api/reservation`, { params: { restaurantName: restaurant.name, }, withCredentials: true })
-        console.log("reservations => ", data);
+        console.log("reservations => ", data.reverse());
         setReservations(data);
 
         await new Promise(res => setTimeout(res, 1000))

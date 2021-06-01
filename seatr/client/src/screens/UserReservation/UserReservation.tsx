@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Paper, Typography, Button } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import Reservation from "../../models/Reservation";
 import axios from "axios";
 import { AuthContext } from "../../utils/AuthContext";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import firebase from 'firebase';
 import firebaseConfig from "../../utils/firebaseConfig";
-import * as serviceWorker from '../../serviceWorker'
 
 const UserReservation = () => {
   const [reservations, setReservations] = useState<Array<Reservation>>([]);
@@ -18,7 +17,7 @@ const UserReservation = () => {
       try {
         const { data } = await axios.get(`/api/reservation`, { params: { userPhone: authContext.phone, }, withCredentials: true })
         //console.log("reservations => ", data);
-        setReservations(data);
+        setReservations(data.reverse());
 
         await new Promise(res => setTimeout(res, 1000))
       } catch (err) {
@@ -45,7 +44,7 @@ const UserReservation = () => {
       try {
         await messaging.requestPermission() 
         
-        const currentToken = await messaging.getToken({ vapidKey: 'BHJ1aMQSkNa7KLvY62Y-lMrIWTZ4hXS3q4czNsuXuF2S4dg2W46cZPCSv1s1NZx6giJbxoIR_nvN_stroTVy0TM'})   
+        const currentToken = await messaging.getToken({ vapidKey: process.env.REACT_APP_VAPIDKEY})   
         if (currentToken) {
           console.log("current notification token => ", currentToken);
         } else {
@@ -53,9 +52,9 @@ const UserReservation = () => {
         }
         
         await messaging.onMessage((payload) => {
-          console.log('Message received. ', payload.notification);
+          console.log('Message received. ', payload);
         })
-        
+
       } catch (err) {
         alert(err);
       }
@@ -66,8 +65,6 @@ const UserReservation = () => {
     switch (status) {
       case "ACCEPTED":
         return <b style={{ color: "green" }}> ACCEPTED </b>
-      case "ACCEPTED":
-        return <b style={{ color: "yellow" }}> CANCELED </b>
       case "DECLINED":
         return <b style={{ color: "RED" }}> DECLINED </b>
       default:

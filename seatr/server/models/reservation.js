@@ -9,6 +9,7 @@ const reservationSchema = new Schema({
   userName: SchemaTypes.String, 
   restaurantName: SchemaTypes.String, 
   order: SchemaTypes.String, 
+  fcmToken: SchemaTypes.String,
 });
 
 module.exports = model("reservation", reservationSchema, "reservation");

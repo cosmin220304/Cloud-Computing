@@ -16,6 +16,8 @@ import { Accordion } from "@material-ui/core";
 import PaymentDialog from "./components/PaymentDialog";
 import { AuthContext } from "../../utils/AuthContext";
 import RestaurantReviews from "./components/RestaurantReviews";
+import firebase from "firebase";
+import firebaseConfig from "../../utils/firebaseConfig";
 
 interface ItemQuantity {
   item: MenuItem;
@@ -32,6 +34,7 @@ export default function RestaurantHome() {
   const [openPaymentDialog, setOpenPaymentDialog] = useState<boolean>(false);
   const [order, setOrder] = useState<Array<ItemQuantity>>([]);
   const [dateTime, setDateTime] = useState("2017-05-24T10:30");
+  const [fcmToken, setFcmToken] = useState<string>("")
 
   useEffect(() => {
     if (location.state) { 
@@ -51,6 +54,32 @@ export default function RestaurantHome() {
     }
   }, [location]);
 
+  //tutorial: https://blog.logrocket.com/push-notifications-with-react-and-firebase/
+  useEffect(() => { 
+    (async function () {
+      try {
+        !firebase.apps.length
+        ? firebase.initializeApp(firebaseConfig)
+        : firebase.app();
+
+        const messaging = firebase.messaging();
+        await messaging.requestPermission();
+
+        const currentToken = await messaging.getToken({ vapidKey: process.env.REACT_APP_VAPIDKEY });
+        if (currentToken) {
+          console.log("current notification token => ", currentToken);
+        } else {
+          console.log("No registration token available. Request permission to generate one.");
+          return;
+        } 
+
+        setFcmToken(currentToken)
+      } catch (err) {
+        alert(err);
+      }
+    })()
+  }, []);
+
   const finishMakeReservation = async () => {
     try {
       await axios.post(`/api/restaurant/${restaurant.name}/reservation`, {
@@ -60,6 +89,7 @@ export default function RestaurantHome() {
         userGender: authContext.gender, 
         userName: `${authContext.surname} ${authContext.name}`,
         order: order.filter(o => o.quantity > 0).map(o => `${o.item.name} x ${o.quantity}`).join(', '),
+        fcmToken: fcmToken
       }, { withCredentials: true })
       .then(() => history.push("/reservation"))
     } catch (err) {

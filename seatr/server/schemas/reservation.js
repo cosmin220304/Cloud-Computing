@@ -8,6 +8,7 @@ const postReservationSchema = Joi.object({
   userGender: Joi.string().required(),
   userName: Joi.string().required(),
   order: Joi.string().allow(null, '').optional(),
+  fcmToken: Joi.string().allow(null, '').optional(),
 });
 
 module.exports = validator.body(postReservationSchema);

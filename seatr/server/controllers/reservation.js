@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 const { sendEmail } = require("../services/emailSender");
 const db = require("../models");
 const { Types } = require("mongoose");
+const axios = require('axios');
 
 module.exports.getReservations = async (req, res) => {
   try {
@@ -26,6 +27,31 @@ module.exports.changeReservationStatus = async (req, res) => {
 
     reservation.status = status;
     reservation = await reservation.save();
+
+    if (!reservation.fcmToken || reservation.fcmToken === "") return;
+    
+    console.log(reservation.fcmToken)
+    axios({
+      method: 'post',
+      url: 'https://fcm.googleapis.com/fcm/send',
+      headers: { 
+        'Authorization': process.env.FCM_SERVER_KEY, 
+        'Content-Type': 'application/json'
+      },
+      data : {
+        to: reservation.fcmToken,
+        notification: {
+          body: `Your reservation has been ${reservation.status}`,
+          title: "seatr",
+        }
+      }
+    })
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
     return res.status(200).json({ message: "changed status" });
   } catch (err) {
