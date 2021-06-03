@@ -90,10 +90,10 @@ export default function Home() {
     <div className="home-page">
       <Paper className="home-page_search">
         <InputBase onChange={updateSearchText} fullWidth />
-        <div className="w-2" onClick={makeSearch} className="pointer">
+        <div className="w-2 pointer" onClick={makeSearch} >
           <SearchOutlined />
         </div>
-        <div className="w-2" onClick={() => setenableFilter(prev => prev ? false : true)}className="pointer">
+        <div className="w-2 pointer" onClick={() => setenableFilter(prev => prev ? false : true)} >
           <MenuOutlined />
         </div>
       </Paper>

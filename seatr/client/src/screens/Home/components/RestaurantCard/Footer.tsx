@@ -6,7 +6,7 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 interface IProps {
   priceRange: number;
   starRating: number;
-  distance?: string;
+  distance?: any;
 }
 
 export default function Footer({ priceRange, starRating, distance }: IProps) {
