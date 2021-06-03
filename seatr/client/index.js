@@ -10,7 +10,7 @@ app.use(cors({
   credentials: true,
 }))
 
-app.get("/api/**", (req, res) => {
+app.use("/api/**", (req, res) => {
   console.log('api', req.url, req.method)
   axios.get(`http://seatr-the-best-api.azurewebsites.net${req.url}`)
     .then(({ data }) => { console.log(data); res.send(data) })

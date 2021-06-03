@@ -15,7 +15,7 @@ export default function Footer({ priceRange, starRating, distance }: IProps) {
       <div>
         <div className="flex center">
           <DriveEtaIcon />
-          <Typography style={{ fontWeight: 600 }}>{`${distance ?? "??"} min`}</Typography>
+          <Typography style={{ fontWeight: 600 }}>{`${distance ? Math.round(distance * 10) / 10 : "??"} min`}</Typography>
         </div>
         <div className="flex center">
           <Rating
