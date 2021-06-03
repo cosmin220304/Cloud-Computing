@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { AuthContextWrapper } from "./utils/AuthContext";
+import registerServiceWorker from "./registerServiceWorker";
 import reportWebVitals from "./utils/reportWebVitals";
-import * as serviceWorker from './serviceWorker'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,4 +15,4 @@ ReactDOM.render(
 );
 
 reportWebVitals();
-serviceWorker.register(null);
+registerServiceWorker();

@@ -10,10 +10,6 @@ app.use(cors({
   credentials: true,
 }))
 
-app.get("/service-worker.js", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "serviceWorker.js"));
-});
-
 app.get("/api/**", (req, res) => {
   console.log('api', req.url, req.method)
   axios.get(`http://seatr-the-best-api.azurewebsites.net${req.url}`)
