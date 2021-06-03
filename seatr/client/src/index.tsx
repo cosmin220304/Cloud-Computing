@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { AuthContextWrapper } from "./utils/AuthContext";
-import registerServiceWorker from "./registerServiceWorker";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from "./utils/reportWebVitals";
 
 ReactDOM.render(
@@ -15,4 +15,4 @@ ReactDOM.render(
 );
 
 reportWebVitals();
-registerServiceWorker();
+serviceWorkerRegistration.register();

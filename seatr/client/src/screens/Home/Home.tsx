@@ -60,6 +60,10 @@ export default function Home() {
     makeSearch();
   }, []);
 
+  useEffect(() => {
+    makeSearch();
+  }, [covidFilter]);
+
   const sortBy = ({ value }) => {
     let orderedRestaurant = [...restaurants];
     switch (value) {
@@ -86,14 +90,14 @@ export default function Home() {
     <div className="home-page">
       <Paper className="home-page_search">
         <InputBase onChange={updateSearchText} fullWidth />
-        <div className="w-2" onClick={makeSearch}>
+        <div className="w-2" onClick={makeSearch} className="pointer">
           <SearchOutlined />
         </div>
-        <div className="w-2" onClick={() => setenableFilter(prev => prev ? false : true)}>
+        <div className="w-2" onClick={() => setenableFilter(prev => prev ? false : true)}className="pointer">
           <MenuOutlined />
         </div>
       </Paper>
-      {enableFilter && <Paper className="home-page_filter">
+      {enableFilter && <Paper className="home-page_filter pointer">
        <Dropdown 
         options={["distance", "rating", "price"]}  
         value={"distance"}  
